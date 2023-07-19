@@ -278,9 +278,15 @@ h5 {
   max-width: 120px;
 }
 
-.content {
-  height: 250px;
+.content-comments {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+    
 }
+
 .input-container {
   margin-top: 40px;
 }
