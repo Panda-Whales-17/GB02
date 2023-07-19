@@ -7,7 +7,7 @@ import { CommentBox } from '../components/CommentBox.jsx';
 import { CommentPostOverlay } from '../components/CommentPostOverlay.jsx';
 
 
-export const CommentsContainer = ({ commentsToRender }) => {
+export const CommentsContainer = () => {
   //this is the state for the accordian, when the accordian is clicked it invokes an active index
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -15,6 +15,7 @@ export const CommentsContainer = ({ commentsToRender }) => {
   const [showOverlay, setShowOverlay] = useState(false);
 
   const [techData, setTechData] = useState(null);;
+  const [commentsToRender, setCommentsToRender] = useState([])
 
   //from here we had starting typing out the states to handle the backend format but realized we did not have enough time so it is not connected/finished
   /*
@@ -48,6 +49,11 @@ export const CommentsContainer = ({ commentsToRender }) => {
       .then(response => response.json())
       .then(data => setTechData(data))
       .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
+
+    fetch('/api/tech/posts/' + techId)
+      .then(response => response.json())
+      .then(data => setCommentsToRender(data))
+      .catch(err => console.log('And error occured in CommentsContainer.jsx useEffect when fetching the posts: ' + err));
 
   }, []);
 
@@ -129,7 +135,7 @@ export const CommentsContainer = ({ commentsToRender }) => {
       <input type="text" className="search-bar" placeholder="Search Comments..." />
 
       <div className="accordion">
-        {comments}
+        {comments.length > 0 ? comments : <p>No posts yet!</p>}
       </div>
     </div>
   );
