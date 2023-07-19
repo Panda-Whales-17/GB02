@@ -56,15 +56,12 @@ export function HomeHeaderContainer() {
 
   // FIXME: div usage in here is insane. Not sure if it's all necessary. Will probably need to take a look.
   return (
-    <div className="main-header">
-      <div className="content">
-        <HomeHeader openOverlay={openOverlay} />
-        
-        {showOverlay && <HomeHeaderOverlay 
-          openOverlay={openOverlay}
-          addAPI={addAPI}
-        />}
-      </div>
+    <div className="container-header">
+      <HomeHeader openOverlay={openOverlay} />
+      {showOverlay && <HomeHeaderOverlay 
+        openOverlay={openOverlay}
+        addAPI={addAPI}
+      />}
     </div>
   );
 }

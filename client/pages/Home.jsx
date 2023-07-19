@@ -29,8 +29,15 @@ export const Home = ({ loggedInStatus, setLoggedInStatus }) => {
   return (
     <div>
       <Navbar loggedInStatus={loggedInStatus} setLoggedInStatus={setLoggedInStatus} />
-      <HomeHeaderContainer />
-      <HomeApiContainer apiData={apiData} setApiData={setApiData} />
+      <div className="container-primary">
+        <HomeHeaderContainer />
+        <input
+          type="text"
+          className="input-bar-home"
+          placeholder="Search APIs..."
+        />
+        <HomeApiContainer apiData={apiData} setApiData={setApiData} />
+      </div>
     </div>
   );
 };
