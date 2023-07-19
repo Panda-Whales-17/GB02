@@ -4,7 +4,7 @@ import '../styles/Home.scss';
 import { HomeHeaderContainer } from '../containers/HomeHeaderContainer.jsx';
 import { HomeApiContainer } from '../containers/HomeApiContainer.jsx';
 
-export const Home = () => {
+export const Home = ({ loggedInStatus }) => {
   const [apiData, setApiData] = useState([]);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const Home = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar loggedInStatus={loggedInStatus} />
       <HomeHeaderContainer />
       <HomeApiContainer apiData={apiData} setApiData={setApiData} />
     </div>

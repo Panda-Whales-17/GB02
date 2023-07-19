@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/Comments.scss';
 
-import { Navbar } from '../components/Navbar.jsx';
 import { CommentHeader } from '../components/CommentHeader.jsx';
 import { CommentBox } from '../components/CommentBox.jsx';
 import { CommentPostOverlay } from '../components/CommentPostOverlay.jsx';
@@ -112,7 +111,6 @@ export const CommentsContainer = ({ commentsToRender }) => {
 
   return (
     <div>
-      <Navbar />
 
       {techData && <CommentHeader 
         techImage={techData.tech.image_url}
