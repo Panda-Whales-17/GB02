@@ -3,7 +3,7 @@ import React from 'react';
 export const CommentHeader = ({ techImage, techLink, techName, techDescription, openOverlay }) => {
   return (
     <div className="main-header">
-      <div className="content">
+      <div className="content-comments">
         <div className="comment-data-box">
           <img className="comment-data-image" src={techImage}></img>
           <div>

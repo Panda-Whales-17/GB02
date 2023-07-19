@@ -45,7 +45,7 @@ techController.findTech = async (req, res, next) => {
 
 techController.makeTech = async (req, res, next) => {
   // Grab req.body and users cookies make a new db entry
-  console.log(req.body);
+  console.log('makeTech req.body: ', req.body);
   const {
     name,
     typeApi,

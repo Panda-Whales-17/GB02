@@ -1,3 +1,12 @@
+#overlay-close-button-comments {
+  position: relative;
+  left: -55px;
+  top: -55px;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+}
+
 .accordion {
   width: 100%;
   max-width: 1200px;
@@ -269,9 +278,15 @@ h5 {
   max-width: 120px;
 }
 
-.content {
-  height: 250px;
+.content-comments {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+    
 }
+
 .input-container {
   margin-top: 40px;
 }
