@@ -14,7 +14,7 @@ export const CommentsContainer = ({ commentsToRender }) => {
   //state overlay that is changed to true when the button is clicked in order to appear
   const [showOverlay, setShowOverlay] = useState(false);
 
-  const [techData, setTechData] = useState(null);;
+  const [techData, setTechData] = useState(null);
 
   //from here we had starting typing out the states to handle the backend format but realized we did not have enough time so it is not connected/finished
   /*

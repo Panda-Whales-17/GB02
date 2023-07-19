@@ -10,7 +10,7 @@ const router = express.Router();
 // Add new User to the database
 router.post('/newuser',userController.makeUser,(req, res) => {
   // userController.newSession,
-    res.status(200).json(res.locals.userID);
+    return res.status(200).json(res.locals.userID);
 });
 
 // Login
@@ -19,7 +19,7 @@ router.post(
   userController.authenticate,
   userController.newSession,
   (req, res) => {
-    res.status(200).send();
+    return res.status(200).send();
   }
 );
 

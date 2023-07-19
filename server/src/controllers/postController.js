@@ -28,10 +28,11 @@ postController.findPost = async (req, res, next) => {
 
 postController.makePost = async (req, res, next) => {
   // An authorized user is posting
+  const { username } = req.param;
   // Get username from cookies/session
   //const { username } = req.cookies;
   // const uploader_id = req.cookies('SSID');
-  const uploader_id = 8;
+  const uploader_id = db.query(`SELECT user_id FROM users WHERE username = $1`, [ username ])
   // Get post from body
   const {
     tech_id,
@@ -46,6 +47,11 @@ postController.makePost = async (req, res, next) => {
   const image = '';
   // retreive tech id, uploader id, and language id
   // code
+  
+  //Obtain username from request body.
+  //use username to get user_id.
+  // assign user_Id to uploader_id
+  
 
   try {
     // Add the post to the DB
