@@ -50,7 +50,7 @@ export function HomeHeaderContainer() {
       console.log('success');
       console.log('data returned', data);
     } catch (err) {
-      console.log(err);
+      console.log('An error occured in HomeHeaderContainer.jsx addAPI: ' + err);
     }
   };
 
