@@ -19,39 +19,39 @@ const App = () => {
       <Routes>
         <Route
           index
-          element={<Home />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+          element={<Home 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
         <Route
-          path="/Home"
-          element={<Home />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+
+          path="home"
+          element={<Home 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
         <Route
-          path="/Comments/:id"
-          element={<Comments />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+          path="comments/:id"
+          element={<Comments 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
         <Route
-          path="/Login"
-          element={<Login />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+          path="profile"
+          element={<Profile 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
         <Route
-          path="/Signup"
-          element={<SignupForm />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
-        />
-        <Route
-          path="/Profile"
-          element={<Profile />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+          path="login"
+          element={<Login 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
       </Routes>
     </BrowserRouter>
