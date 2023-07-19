@@ -19,6 +19,7 @@ export function Navbar({ loggedInStatus, setLoggedInStatus }) {
   function signup() {
     navigate('/Signup');
   }
+
   function logout() {
     setLoggedInStatus(false);
   }

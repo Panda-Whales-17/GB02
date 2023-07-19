@@ -6,6 +6,7 @@ import { Home } from './pages/Home.jsx';
 import Comments from './pages/Comments.jsx';
 import Login from './pages/Login.jsx';
 import Profile from './pages/Profile.jsx';
+import { SignupForm } from './components/Signup.jsx';
 import './styles/_appStyles.scss';
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           />}
         />
         <Route
+
           path="home"
           element={<Home 
             loggedInStatus={loggedInStatus} 
