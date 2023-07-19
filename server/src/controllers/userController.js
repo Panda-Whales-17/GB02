@@ -47,16 +47,18 @@ userController.makeUser = async (req, res, next) => {
          console.log('user added successfully');
 
     // Add USER_ID on res.locals.userId
-    const { rows } = db.query(
-      `SELECT user_id FROM users WHERE name = $1`,
+    const newUser = await db.query(
+      `SELECT * FROM users WHERE name = $1`,
       [username]
     );
-    const { user_id, password } = rows[0];
+    // console.log( newUser.rows[0].user_id)
+
+    const { user_id } = newUser.rows[0];
 
     
 
     res.locals.userId = user_id;
-    console.log(res.locals.userId);
+    console.log('This is locals',res.locals.userId);
     return next();
   } catch (err) {
     
