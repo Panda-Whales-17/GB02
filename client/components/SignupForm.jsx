@@ -7,7 +7,7 @@ export function SignupForm(props) {
   const defaultUser = { username: '', password: '' };
   const [signupData, setSignupData] = useState(defaultUser);
   const [displayError, setDisplayError] = useState(false);
-  const { setIsLoggedIn } = props;
+  const { setLoggedInStatus } = props;
   const navigate = useNavigate();
 
   const handleOnChange = (event) => {
@@ -25,7 +25,7 @@ export function SignupForm(props) {
           body: JSON.stringify(signupData),
         });
         setSignupData(defaultUser);
-        setIsLoggedIn(true);
+        setLoggedInStatus(true);
         setDisplayError(false);
         navigate('/Home');
       } catch (error) {
