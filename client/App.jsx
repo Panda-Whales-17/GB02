@@ -18,33 +18,38 @@ const App = () => {
       <Routes>
         <Route
           index
-          element={<Home />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+          element={<Home 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
         <Route
           path="home"
-          element={<Home />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+          element={<Home 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
         <Route
           path="comments/:id"
-          element={<Comments />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
-        />
-        <Route
-          path="login"
-          element={<Login />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+          element={<Comments 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
         <Route
           path="profile"
-          element={<Profile />}
-          loggedIn={setLoggedInStatus}
-          userId={loggedInStatus}
+          element={<Profile 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
+        />
+        <Route
+          path="login"
+          element={<Login 
+            loggedInStatus={loggedInStatus} 
+            setLoggedInStatus={setLoggedInStatus} 
+          />}
         />
       </Routes>
     </BrowserRouter>
