@@ -38,15 +38,15 @@ const App = () => {
           />}
         />
         <Route
-          path="login"
-          element={<Login 
+          path="profile"
+          element={<Profile 
             loggedInStatus={loggedInStatus} 
             setLoggedInStatus={setLoggedInStatus} 
           />}
         />
         <Route
-          path="profile"
-          element={<Profile 
+          path="login"
+          element={<Login 
             loggedInStatus={loggedInStatus} 
             setLoggedInStatus={setLoggedInStatus} 
           />}

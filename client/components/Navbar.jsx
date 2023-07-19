@@ -1,10 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export function Navbar({ loggedInStatus }) {
+export function Navbar({ loggedInStatus, setLoggedInStatus }) {
   const navigate = useNavigate();
-
-  console.log(loggedInStatus);
 
   function home() {
     navigate('/Home');
@@ -12,19 +10,39 @@ export function Navbar({ loggedInStatus }) {
   function comments() {
     navigate('/Comments');
   }
-  function Login() {
-    navigate('/Login');
-  }
-  function Profile() {
+  function profile() {
     navigate('/Profile');
   }
+  function login() {
+    navigate('/Login');
+  }
+  function signup() {
+    navigate('/Signup');
+  }
+  function logout() {
+    setLoggedInStatus(false);
+  }
+  
 
-  return (
-    <ul className="Navbar">
-      <li onClick={home}>Home</li>
-      <li onClick={comments}>Comments</li>
-      <li onClick={Login}>Login</li>
-      <li onClick={Profile}>Profile</li>
-    </ul>
-  );
+  if (loggedInStatus) {
+    return (
+      <ul className="Navbar">
+        <p>Welcome, {loggedInStatus}!</p>
+        <li onClick={home}>Home</li>
+        <li onClick={comments}>Comments</li>
+        <li onClick={profile}>Profile</li>
+        <li onClick={logout}>Logout</li>
+      </ul>
+    )
+  }
+  else {
+    return (
+      <ul className="Navbar">
+        <li onClick={home}>Home</li>
+        <li onClick={login}>Login</li>
+        <li onClick={signup}>Signup</li>
+      </ul>
+    );
+  }
+  
 }

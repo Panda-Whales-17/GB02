@@ -2,11 +2,11 @@ import React from 'react';
 import { CommentsContainer } from '../containers/CommentsContainer.jsx';
 import { Navbar } from '../components/Navbar.jsx';
 
-const Comments = ({ loggedInStatus }) => {
-  
+const Comments = ({ loggedInStatus, setLoggedInStatus }) => {
+
   return (
     <div>
-      <Navbar loggedInStatus={loggedInStatus} />
+      <Navbar loggedInStatus={loggedInStatus} setLoggedInStatus={setLoggedInStatus} />
       <CommentsContainer commentsToRender={mockData} />
     </div>
   );
