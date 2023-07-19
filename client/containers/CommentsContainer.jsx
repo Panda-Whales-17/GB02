@@ -110,7 +110,7 @@ export const CommentsContainer = ({ commentsToRender }) => {
   });
 
   return (
-    <div>
+    <div className="container-primary">
 
       {techData && <CommentHeader 
         techImage={techData.tech.image_url}
@@ -126,9 +126,7 @@ export const CommentsContainer = ({ commentsToRender }) => {
         addComment={addComment}
       />}
 
-      <div className="input-container">
-        <input type="text" className="input-bar" placeholder="Search APIs..." />
-      </div>
+      <input type="text" className="search-bar" placeholder="Search Comments..." />
 
       <div className="accordion">
         {comments}
