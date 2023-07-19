@@ -17,14 +17,11 @@ export const CommentsContainer = ({ data }) => {
   const [showOverlay, setShowOverlay] = useState(false);
 
   //here are the states for the form to keep track of each input
-  const [editorContent, setEditorContent] = useState('');
   const initialVal = ` - Technical notes / Key insights`;
   const [techName, setTechName] = useState('');
   const [techLink, setTechLink] = useState('');
   const [techDescription, setTechDescription] = useState('');
   const [techImage, setTechImage] = useState('');
-  const [entry, setEntry] = useState();
-  const [image, setImage] = useState();
 
   //from here we had starting typing out the states to handle the backend format but realized we did not have enough time so it is not connected/finished
   /*
@@ -47,7 +44,6 @@ export const CommentsContainer = ({ data }) => {
   */
 
   // title TEXT NOT NULL,
-  const [titleEntry, setTitleEntry] = useState();
 
   // tech INTEGER NOT NULL,
   const [currentTech, setCurrentTech] = useState();
@@ -64,44 +60,48 @@ export const CommentsContainer = ({ data }) => {
   // comment VARCHAR(5000) NOT NULL,
 
   // language INTEGER NOT NULL,
-  const [languageEntry, setLanguageEntry] = useState();
   const [commentEntries, setCommentEntries] = useState([]);
 
   //to find id of our url
   const { id } = useParams();
 
-  const addComment = async () => {
-    event.preventDefault();
-    console.log(id, titleEntry, entry, image);
+  const addComment = async (e) => {
+    e.preventDefault();
+    // console.log(e.target.children[2].value); // title
+    // console.log(e.target.children[3].value); // Language
+    // console.log(e.target.children[4].value); // Editor
+    // console.log(e.target.children[6].value); // Image
+
+    const newComment = {
+      tech_id: id,
+      typeReview: false,
+      typeAdvice: false,
+      typeCodeSnippet: false,
+      typeHelpOffer: false,
+      languageid: 1,
+      title: e.target.children[2].value,
+      comment: e.target.children[4].value,
+      image: e.target.children[6].value
+    }
+    
     try {
-      setShowOverlay(false);
       //on the button click the overlay is set back to false
       const response = await fetch('/api/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-
-        body: JSON.stringify({
-          // userId: number, found via backend
-
-          tech_id: id,
-          typeReview: false,
-          typeAdvice: false,
-          typeCodeSnippet: false,
-          typeHelpOffer: false,
-          languageid: 1,
-          title: titleEntry,
-          comment: entry,
-          image: image,
-        }),
+        body: JSON.stringify(newComment),
       });
 
       const data = await response.json();
+
+      setShowOverlay(false);
       console.log('success');
       console.log('data returned', data);
-    } catch (err) {
-      console.log(err);
+    } 
+    catch (err) {
+      console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
     }
   };
 
@@ -140,16 +140,7 @@ export const CommentsContainer = ({ data }) => {
     }
     else {
       const postCommentOverlay = <CommentPostOverlay
-        titleEntry={titleEntry}
-        setTitleEntry={setTitleEntry}
-        languageEntry={languageEntry}
-        setLanguageEntry={setLanguageEntry}
         initialVal={initialVal}
-        handleEditorChange={handleEditorChange}
-        entry={entry}
-        setEntry={setEntry}
-        image={image}
-        setImage={setImage}
         addComment={addComment}
       />
       setShowOverlay(postCommentOverlay);
@@ -158,10 +149,6 @@ export const CommentsContainer = ({ data }) => {
 
   const handleAccordionClick = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
-  };
-
-  const handleEditorChange = (content, editor) => {
-    setEditorContent(content);
   };
 
   const comments = data.map((item, index) => {
