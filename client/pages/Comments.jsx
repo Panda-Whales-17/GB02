@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { CommentsContainer } from '../containers/CommentsContainer.jsx';
+import { Navbar } from '../components/Navbar.jsx';
 
-const Comments = () => {
+const Comments = ({ loggedInStatus, setLoggedInStatus }) => {
 
   return (
-    <CommentsContainer commentsToRender={mockData} />
+    <div>
+      <Navbar loggedInStatus={loggedInStatus} setLoggedInStatus={setLoggedInStatus} />
+      <CommentsContainer commentsToRender={mockData} />
+    </div>
   );
 };
 
