@@ -6,6 +6,7 @@ import { Home } from './pages/Home.jsx';
 import Comments from './pages/Comments.jsx';
 import Login from './pages/Login.jsx';
 import Profile from './pages/Profile.jsx';
+import { SignupForm } from './components/Signup.jsx';
 import './styles/_appStyles.scss';
 
 const App = () => {
@@ -23,25 +24,31 @@ const App = () => {
           userId={loggedInStatus}
         />
         <Route
-          path="home"
+          path="/Home"
           element={<Home />}
           loggedIn={setLoggedInStatus}
           userId={loggedInStatus}
         />
         <Route
-          path="comments/:id"
+          path="/Comments/:id"
           element={<Comments />}
           loggedIn={setLoggedInStatus}
           userId={loggedInStatus}
         />
         <Route
-          path="login"
+          path="/Login"
           element={<Login />}
           loggedIn={setLoggedInStatus}
           userId={loggedInStatus}
         />
         <Route
-          path="profile"
+          path="/Signup"
+          element={<SignupForm />}
+          loggedIn={setLoggedInStatus}
+          userId={loggedInStatus}
+        />
+        <Route
+          path="/Profile"
           element={<Profile />}
           loggedIn={setLoggedInStatus}
           userId={loggedInStatus}

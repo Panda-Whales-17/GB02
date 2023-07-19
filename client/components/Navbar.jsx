@@ -15,12 +15,16 @@ export function Navbar() {
   function Profile() {
     navigate('/Profile');
   }
+  function Signup() {
+    navigate('/Signup');
+  }
 
   return (
     <ul className="Navbar">
       <li onClick={home}>Home</li>
       <li onClick={comments}>Comments</li>
       <li onClick={Login}>Login</li>
+      <li onClick={Signup}>Signup</li>
       <li onClick={Profile}>Profile</li>
     </ul>
   );

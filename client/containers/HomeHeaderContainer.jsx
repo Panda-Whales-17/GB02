@@ -5,6 +5,7 @@ export function HomeHeaderContainer() {
   //overlay state for showing the form, set true to appear
   const [showOverlay, setShowOverlay] = useState(false);
   //state for the form inputs
+  const [apiData, setApiData] = useState[{}];
   const [apiName, setApiName] = useState('');
   const [apiURL, setApiURL] = useState('');
   const [apiDescription, setApiDescription] = useState('');
