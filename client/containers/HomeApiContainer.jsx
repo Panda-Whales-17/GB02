@@ -46,7 +46,7 @@ export function HomeApiContainer(props) {
   return (
     <div className="one">
       <div className="scroll-container">
-        <div className="grid-container">{renderBox()}</div>
+        <div className="grid-container">{Array.isArray(apiData) ? renderBox() : 'Nothing here :)'}</div>
       </div>
     </div>
   );
