@@ -1,6 +1,11 @@
+$mainColor: #ee4988;
+$secondaryColor: lighten($mainColor, 20%);
+$tertiaryColor: light($mainColor, 50%);
+
+
 $first: #478691;
 $second: #B0F3FF;
-$third: #84D0DE;
+
 $fourth: #916139;
 $fifth: #DEAC83;
 
