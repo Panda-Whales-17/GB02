@@ -4,7 +4,7 @@ import { CommentsContainer } from '../containers/CommentsContainer.jsx';
 const Comments = () => {
 
   return (
-    <CommentsContainer data={mockData} />
+    <CommentsContainer commentsToRender={mockData} />
   );
 };
 

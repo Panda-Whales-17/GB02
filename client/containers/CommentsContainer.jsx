@@ -9,18 +9,14 @@ import { CommentBox } from '../components/CommentBox.jsx';
 import { CommentPostOverlay } from '../components/CommentPostOverlay.jsx';
 
 
-export const CommentsContainer = ({ data }) => {
+export const CommentsContainer = ({ commentsToRender }) => {
   //this is the state for the accordian, when the accordian is clicked it invokes an active index
   const [activeIndex, setActiveIndex] = useState(null);
 
   //state overlay that is changed to true when the button is clicked in order to appear
   const [showOverlay, setShowOverlay] = useState(false);
 
-  //here are the states for the form to keep track of each input
-  const [techName, setTechName] = useState('');
-  const [techLink, setTechLink] = useState('');
-  const [techDescription, setTechDescription] = useState('');
-  const [techImage, setTechImage] = useState('');
+  const [techData, setTechData] = useState(null);;
 
   //from here we had starting typing out the states to handle the backend format but realized we did not have enough time so it is not connected/finished
   /*
@@ -41,9 +37,6 @@ export const CommentsContainer = ({ data }) => {
         image TEXT
     )
   */
-
-  const [currentTech, setCurrentTech] = useState();
-  const [commentEntries, setCommentEntries] = useState([]);
 
   //to find id of our url
   const { id } = useParams();
@@ -90,31 +83,21 @@ export const CommentsContainer = ({ data }) => {
   };
 
   // initializing the page
-  useEffect(() => {
+  useEffect(async () => {
     //the tech id is linked to the home page box technology clicked
     const techId = id;
 
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/tech/' + techId, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await response.json();
-        const newData = JSON.parse(JSON.stringify(data));
-        // newData =  {tech: tech-obj, posts: [post-obj, post-obj, ..]}
-        setCommentEntries(newData.posts);
-        setCurrentTech(newData.tech);
-        setTechName(newData.tech.name);
-        setTechDescription(newData.tech.description);
-        setTechLink(newData.tech.link);
-        setTechImage(newData.tech.image_url);
-        console.log(newData);
-      } catch (err) {}
-    };
-    fetchData();
+    try {
+      const response = await fetch('/api/tech/' + techId);
+      const data = await response.json();
+      setTechData(data);
+
+      console.log(data);
+    } 
+    catch (err) {
+      console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err);
+    }
+
   }, []);
 
   const openOverlay = () => {
@@ -125,7 +108,7 @@ export const CommentsContainer = ({ data }) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
-  const comments = data.map((item, index) => {
+  const comments = commentsToRender.map((item, index) => {
     return <CommentBox 
       item={item}
       index={index} 
@@ -139,13 +122,14 @@ export const CommentsContainer = ({ data }) => {
     <div>
       <Navbar />
 
-      <CommentHeader 
-        techImage={techImage}
-        techLink={techLink}
-        techName={techName}
-        techDescription={techDescription}
+      {techData ? <CommentHeader 
+        techImage={techData.tech.image_url}
+        techLink={techData.link}
+        techName={techData.tech.name}
+        techDescription={techData.tech.description}
         openOverlay={openOverlay}
-      />
+      /> : null}
+      
 
       {showOverlay ? <CommentPostOverlay
         openOverlay={openOverlay}
@@ -156,8 +140,8 @@ export const CommentsContainer = ({ data }) => {
         <input type="text" className="input-bar" placeholder="Search APIs..." />
       </div>
 
-      <div className="accordion">{
-        comments}
+      <div className="accordion">
+        {comments}
       </div>
     </div>
   );
