@@ -53,6 +53,8 @@ userController.makeUser = async (req, res, next) => {
     );
     const { user_id, password } = rows[0];
 
+    
+
     res.locals.userId = user_id;
     console.log(res.locals.userId);
     return next();
@@ -77,7 +79,7 @@ userController.endSession = (req, res, next) => {
 userController.authenticate = async (req, res, next) => {
   // Here for verifying authentication of new users
   // If they have a valid session already, next()
-  if (req.cookies('SSID')) next;
+  // if (req.cookies('SSID')) next;
 
   // If they don't have a valid session, check req.body for username + password
   const { username, password } = req.body;
@@ -88,7 +90,11 @@ userController.authenticate = async (req, res, next) => {
       `SELECT user_id FROM users WHERE name = $1, password = $2`,
       [username, password]
     );
-
+// get user information from the table.
+// check if the user exist. IF NOT?
+//if user does exist, then compare deconstructed password with user password from table
+// if true, redirect to hompage.$
+//else redirect to login page.
     if (userIdResult.length == 0) {
       return next({
         log: 'usercontroller.authenticate: Invalid username or password',
@@ -99,7 +105,7 @@ userController.authenticate = async (req, res, next) => {
 
     res.locals.userId = userId[0];
 
-    console.log('UserId saved');
+    console.log(`${username} is successfully signed in`);
 
     return next();
   } catch (err) {
