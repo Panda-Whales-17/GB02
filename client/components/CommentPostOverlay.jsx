@@ -6,10 +6,9 @@ export const CommentPostOverlay = ({ openOverlay, addComment }) => {
     <div className="overlay-comments">
       <div className="overlay-content-comments">
         <div className="formGroup-two">
-          <button 
-            className="login-button"
-            onClick={openOverlay}
-          >Back</button>
+          <button id="overlay-close-button-comments" onClick={openOverlay}>
+            x
+          </button>
           <form onSubmit={addComment}>
             <h2>Add FORM</h2>
             <hr className="line" />
