@@ -1,6 +1,7 @@
 import React from 'react';
+import HelperFunctions from '../helper-functions';
 
-export function CommentBox({ item, index, activeIndex, handleAccordionClick, HelperFunctions }) {
+export function CommentBox({ item, index, activeIndex, handleAccordionClick }) {
   return (
     <div
       key={index}

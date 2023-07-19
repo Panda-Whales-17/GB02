@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import HelperFunctions from '../helper-functions';
 import '../styles/Comments.scss';
 
 import { Navbar } from '../components/Navbar.jsx';
@@ -83,20 +82,14 @@ export const CommentsContainer = ({ commentsToRender }) => {
   };
 
   // initializing the page
-  useEffect(async () => {
+  useEffect(() => {
     //the tech id is linked to the home page box technology clicked
     const techId = id;
 
-    try {
-      const response = await fetch('/api/tech/' + techId);
-      const data = await response.json();
-      setTechData(data);
-
-      console.log(data);
-    } 
-    catch (err) {
-      console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err);
-    }
+    fetch('/api/tech/' + techId)
+      .then(response => response.json())
+      .then(data => setTechData(data))
+      .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
 
   }, []);
 
@@ -114,7 +107,6 @@ export const CommentsContainer = ({ commentsToRender }) => {
       index={index} 
       activeIndex={activeIndex}
       handleAccordionClick={handleAccordionClick}
-      HelperFunctions={HelperFunctions}
     />
   });
 
