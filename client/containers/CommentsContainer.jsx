@@ -126,9 +126,7 @@ export const CommentsContainer = ({ commentsToRender }) => {
         addComment={addComment}
       />}
 
-      <div className="input-container">
-        <input type="text" className="input-bar" placeholder="Search APIs..." />
-      </div>
+      <input type="text" className="search-bar" placeholder="Search Comments..." />
 
       <div className="accordion">
         {comments}
