@@ -8,6 +8,7 @@ export function HomeApiContainer(props) {
 
   // function renders each box on page loadup.
   // FIXME: this looks good, but might want to take a look at the div usage.
+
   const renderBox = (props) => {
     return apiData.map((item, index) => {
       console.log(item);
@@ -46,7 +47,9 @@ export function HomeApiContainer(props) {
   return (
     <div className="one">
       <div className="scroll-container">
-        <div className="grid-container">{Array.isArray(apiData) ? renderBox() : 'Nothing here :)'}</div>
+        <div className="grid-container">
+          {Array.isArray(apiData) ? renderBox() : 'Nothing here :)'}
+        </div>
       </div>
     </div>
   );
