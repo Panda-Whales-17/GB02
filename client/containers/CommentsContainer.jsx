@@ -40,6 +40,18 @@ export const CommentsContainer = ({ commentsToRender }) => {
   //to find id of our url
   const { id } = useParams();
 
+  // initializing the page
+  useEffect(() => {
+    //the tech id is linked to the home page box technology clicked
+    const techId = id;
+
+    fetch('/api/tech/' + techId)
+      .then(response => response.json())
+      .then(data => setTechData(data))
+      .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
+
+  }, []);
+
   const addComment = async (e) => {
     e.preventDefault();
     const commentTitle = document.getElementById('post-overlay-title-input').value; // title
@@ -81,18 +93,6 @@ export const CommentsContainer = ({ commentsToRender }) => {
     // }
   };
 
-  // initializing the page
-  useEffect(() => {
-    //the tech id is linked to the home page box technology clicked
-    const techId = id;
-
-    fetch('/api/tech/' + techId)
-      .then(response => response.json())
-      .then(data => setTechData(data))
-      .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
-
-  }, []);
-
   const openOverlay = () => {
     showOverlay ? setShowOverlay(false) : setShowOverlay(true);
   };
@@ -114,19 +114,19 @@ export const CommentsContainer = ({ commentsToRender }) => {
     <div>
       <Navbar />
 
-      {techData ? <CommentHeader 
+      {techData && <CommentHeader 
         techImage={techData.tech.image_url}
         techLink={techData.link}
         techName={techData.tech.name}
         techDescription={techData.tech.description}
         openOverlay={openOverlay}
-      /> : null}
+      />}
       
 
-      {showOverlay ? <CommentPostOverlay
+      {showOverlay && <CommentPostOverlay
         openOverlay={openOverlay}
         addComment={addComment}
-      /> : null}
+      />}
 
       <div className="input-container">
         <input type="text" className="input-bar" placeholder="Search APIs..." />
