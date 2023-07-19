@@ -45,12 +45,8 @@ export function HomeApiContainer(props) {
   }
 
   return (
-    <div className="one">
-      <div className="scroll-container">
-        <div className="grid-container">
-          {Array.isArray(apiData) ? renderBox() : 'Nothing here :)'}
-        </div>
-      </div>
+    <div className="container-3col">
+      {Array.isArray(apiData) ? renderBox() : 'Nothing here :)'}
     </div>
   );
 }

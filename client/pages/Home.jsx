@@ -33,7 +33,7 @@ export const Home = ({ loggedInStatus, setLoggedInStatus }) => {
         <HomeHeaderContainer />
         <input
           type="text"
-          className="input-bar-home"
+          className="search-bar"
           placeholder="Search APIs..."
         />
         <HomeApiContainer apiData={apiData} setApiData={setApiData} />
