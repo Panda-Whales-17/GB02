@@ -65,8 +65,12 @@ userController.makeUser = async (req, res, next) => {
 
 }
 
-userController.newSession = (req, res, next) => {
+userController.newSession = async (req, res, next) => {
+
+  const { userID } = req.body;
   // Here after creating or authenticating. Make a new 1.5 minute session and send them cookies.
+  const addCookie = await db.query(`INSERT INTO cookie (userID)`)
+
   res.cookie('SSID', res.locals.userId, { httpOnly: true });
   next();
 };
