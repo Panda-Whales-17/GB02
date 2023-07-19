@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export function Navbar() {
+export function Navbar({ loggedInStatus }) {
   const navigate = useNavigate();
+
+  console.log(loggedInStatus);
 
   function home() {
     navigate('/Home');

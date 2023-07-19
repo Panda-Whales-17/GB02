@@ -3,7 +3,7 @@ import { CommentsContainer } from '../containers/CommentsContainer.jsx';
 import { Navbar } from '../components/Navbar.jsx';
 
 const Comments = ({ loggedInStatus }) => {
-
+  
   return (
     <div>
       <Navbar loggedInStatus={loggedInStatus} />
