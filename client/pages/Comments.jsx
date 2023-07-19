@@ -4,6 +4,7 @@ import HelperFunctions from '../helper-functions';
 import '../styles/Comments.scss';
 
 import { Navbar } from '../components/Navbar.jsx';
+import { CommentHeader } from '../components/CommentHeader.jsx';
 import { CommentBox } from '../components/CommentBox.jsx';
 import { CommentPostOverlay } from '../components/CommentPostOverlay.jsx';
 
@@ -176,26 +177,24 @@ const Comments = () => {
   return (
     <div>
       <Navbar />
-      <div className="main-header">
-          <div className="content">
-            <div className="comment-data-box">
-              <img className="comment-data-image" src={techImage}></img>
-              <div>
-                <a href={techLink} className="comment-tech-link">
-                  <h2>{techName}</h2>
-                </a>
-                <p className="comment-tech-description">{techDescription}</p>
-              </div>
-            </div>
-            <button className="button" onClick={openOverlay}>+ ADD POST</button>
-          </div>
-      </div>
+
+      <CommentHeader 
+        techImage={techImage}
+        techLink={techLink}
+        techName={techName}
+        techDescription={techDescription}
+        openOverlay={openOverlay}
+      />
+
       {showOverlay}
+
       <div className="input-container">
         <input type="text" className="input-bar" placeholder="Search APIs..." />
       </div>
 
-      <div className="accordion">{comments}</div>
+      <div className="accordion">{
+        comments}
+      </div>
     </div>
   );
 };
