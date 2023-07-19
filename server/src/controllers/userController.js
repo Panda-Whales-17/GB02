@@ -93,9 +93,14 @@ userController.authenticate = async (req, res, next) => {
   try {
     // Add USER_ID on res.locals.userId
     const userIdResult = await db.query(
-      `SELECT user_id FROM users WHERE name = $1, password = $2`,
-      [username, password]
+      `SELECT user_id, password FROM users WHERE name = $1`,
+      [username]
     );
+    console.log('Results of userIdResult', userIdResult.rows[0])
+    const { userId, password } = userIdResult.rows[0];
+
+    const userPassword = password;
+  
 // get user information from the table.
 // check if the user exist. IF NOT?
 //if user does exist, then compare deconstructed password with user password from table
@@ -109,11 +114,16 @@ userController.authenticate = async (req, res, next) => {
       });
     }
 
-    res.locals.userId = userId[0];
+    const authenticate = await bcrypt.compare(password, userPassword)
+
+    res.locals.userId = userId;
+
+    
+
+    if(authenticate) return next();
 
     console.log(`${username} is successfully signed in`);
 
-    return next();
   } catch (err) {
     return next({
       log: 'Error occured in userController.authenticate.',
