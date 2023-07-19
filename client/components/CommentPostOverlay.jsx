@@ -1,11 +1,15 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export const CommentPostOverlay = ({ initialVal, addComment }) => {
+export const CommentPostOverlay = ({ openOverlay, addComment }) => {
   return (
     <div className="overlay-comments">
       <div className="overlay-content-comments">
         <div className="formGroup-two">
+          <button 
+            className="login-button"
+            onClick={openOverlay}
+          >Back</button>
           <form onSubmit={addComment}>
             <h2>Add FORM</h2>
             <hr className="line" />
@@ -13,17 +17,19 @@ export const CommentPostOverlay = ({ initialVal, addComment }) => {
               type="text"
               className="input-one-first"
               placeholder="Title"
+              id="post-overlay-title-input"
             />
             <input
               type="text"
               className="input-one-c"
               placeholder="Language Used"
+              id="post-overlay-language-input"
             />
             <Editor
               apiKey="ba2mzqsjqzq6lv0fu4numgypg3j9125otxy4rpzttx7vji3q"
-              initialValue={initialVal}
+              initialValue="Technical notes / Key insights"
               className="custom-editor"
-              id="comment-editor"
+              id="post-overlay-editor-input"
               init={{
                 height: 300,
                 max_height: 340,
@@ -46,6 +52,7 @@ export const CommentPostOverlay = ({ initialVal, addComment }) => {
               type="file"
               className="input-one-image"
               accept="image/*"
+              id="post-overlay-image-input"
             />
             <button
               type="submit"

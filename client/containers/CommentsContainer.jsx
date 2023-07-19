@@ -17,7 +17,6 @@ export const CommentsContainer = ({ data }) => {
   const [showOverlay, setShowOverlay] = useState(false);
 
   //here are the states for the form to keep track of each input
-  const initialVal = ` - Technical notes / Key insights`;
   const [techName, setTechName] = useState('');
   const [techLink, setTechLink] = useState('');
   const [techDescription, setTechDescription] = useState('');
@@ -43,23 +42,7 @@ export const CommentsContainer = ({ data }) => {
     )
   */
 
-  // title TEXT NOT NULL,
-
-  // tech INTEGER NOT NULL,
   const [currentTech, setCurrentTech] = useState();
-  // uploader INTEGER NOT NULL,
-
-  // type_review BOOLEAN,
-
-  // type_code_snippet BOOLEAN,
-
-  // type_advice BOOLEAN,
-
-  // type_help_offer BOOLEAN,
-
-  // comment VARCHAR(5000) NOT NULL,
-
-  // language INTEGER NOT NULL,
   const [commentEntries, setCommentEntries] = useState([]);
 
   //to find id of our url
@@ -67,10 +50,10 @@ export const CommentsContainer = ({ data }) => {
 
   const addComment = async (e) => {
     e.preventDefault();
-    // console.log(e.target.children[2].value); // title
-    // console.log(e.target.children[3].value); // Language
-    // console.log(e.target.children[4].value); // Editor
-    // console.log(e.target.children[6].value); // Image
+    const commentTitle = document.getElementById('post-overlay-title-input').value; // title
+    const commentLanguage = document.getElementById('post-overlay-language-input').value; // Language
+    const commentEditor = document.getElementById('post-overlay-editor-input').value; // Editor
+    const commentImage = document.getElementById('post-overlay-image-input').value; // Image
 
     const newComment = {
       tech_id: id,
@@ -79,30 +62,31 @@ export const CommentsContainer = ({ data }) => {
       typeCodeSnippet: false,
       typeHelpOffer: false,
       languageid: 1,
-      title: e.target.children[2].value,
-      comment: e.target.children[4].value,
-      image: e.target.children[6].value
+      title: commentTitle,
+      comment: commentEditor,
+      image: commentImage
     }
     
-    try {
-      //on the button click the overlay is set back to false
-      const response = await fetch('/api/post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newComment),
-      });
+    console.log('Submitting comments is commented out until fixed');
+    // try {
+    //   //on the button click the overlay is set back to false
+    //   const response = await fetch('/api/post', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(newComment),
+    //   });
 
-      const data = await response.json();
+    //   const data = await response.json();
 
-      setShowOverlay(false);
-      console.log('success');
-      console.log('data returned', data);
-    } 
-    catch (err) {
-      console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
-    }
+    //   setShowOverlay(false);
+    //   console.log('success');
+    //   console.log('data returned', data);
+    // } 
+    // catch (err) {
+    //   console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
+    // }
   };
 
   // initializing the page
@@ -133,18 +117,8 @@ export const CommentsContainer = ({ data }) => {
     fetchData();
   }, []);
 
-  const openOverlay = (e) => {
-    // e.preventDefault();
-    if (showOverlay) {
-      setShowOverlay(null);
-    }
-    else {
-      const postCommentOverlay = <CommentPostOverlay
-        initialVal={initialVal}
-        addComment={addComment}
-      />
-      setShowOverlay(postCommentOverlay);
-    }
+  const openOverlay = () => {
+    showOverlay ? setShowOverlay(false) : setShowOverlay(true);
   };
 
   const handleAccordionClick = (index) => {
@@ -173,7 +147,10 @@ export const CommentsContainer = ({ data }) => {
         openOverlay={openOverlay}
       />
 
-      {showOverlay}
+      {showOverlay ? <CommentPostOverlay
+        openOverlay={openOverlay}
+        addComment={addComment}
+      /> : null}
 
       <div className="input-container">
         <input type="text" className="input-bar" placeholder="Search APIs..." />
