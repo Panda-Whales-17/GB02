@@ -110,7 +110,7 @@ export const CommentsContainer = ({ commentsToRender }) => {
   });
 
   return (
-    <div>
+    <div className="container-primary">
 
       {techData && <CommentHeader 
         techImage={techData.tech.image_url}

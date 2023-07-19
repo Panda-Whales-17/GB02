@@ -6,7 +6,7 @@ import { Home } from './pages/Home.jsx';
 import Comments from './pages/Comments.jsx';
 import Login from './pages/Login.jsx';
 import Profile from './pages/Profile.jsx';
-// import './styles/_appStyles.scss';
+import './styles/_appStyles.scss';
 import { SignupForm } from './components/SignupForm.jsx';
 
 const App = () => {
