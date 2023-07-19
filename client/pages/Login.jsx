@@ -13,13 +13,13 @@ const Login = (props) => {
     const un = e.target.username;
     const pw = e.target.password;
 
-    console.log('username: ', un, 'password: ', pw)
+    console.log('username: ', un, 'password: ', pw);
 
     //check if new user is toggled
     const newUser = e.target.new_user;
 
     if (!newUser) {
-      console.log(newUser)
+      console.log(newUser);
       //-->login request (NOT a new user)
       const url = path.resolve('/api/user/login');
       //if good match, post back the home page with access to create an api
@@ -100,14 +100,12 @@ const Login = (props) => {
                 type="text"
                 className="login_username"
                 placeholder="Username"
-                value="username"
               ></input>
               <label>Password</label>
               <input
                 type="text"
                 className="login_password"
                 placeholder="Password"
-                value="password"
               ></input>
               <label>New User?</label>
               <input type="radio" value="new_user"></input>
