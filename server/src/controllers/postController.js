@@ -47,6 +47,8 @@ postController.makePost = async (req, res, next) => {
   // retreive tech id, uploader id, and language id
   // code
 
+  
+
   try {
     // Add the post to the DB
     db.query(

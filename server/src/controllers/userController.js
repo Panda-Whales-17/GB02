@@ -47,16 +47,18 @@ userController.makeUser = async (req, res, next) => {
          console.log('user added successfully');
 
     // Add USER_ID on res.locals.userId
-    const { rows } = db.query(
-      `SELECT user_id FROM users WHERE name = $1`,
+    const newUser = await db.query(
+      `SELECT * FROM users WHERE name = $1`,
       [username]
     );
-    const { user_id, password } = rows[0];
+    // console.log( newUser.rows[0].user_id)
+
+    const { user_id } = newUser.rows[0];
 
     
 
     res.locals.userId = user_id;
-    console.log(res.locals.userId);
+    console.log('This is locals',res.locals.userId);
     return next();
   } catch (err) {
     
@@ -65,8 +67,12 @@ userController.makeUser = async (req, res, next) => {
 
 }
 
-userController.newSession = (req, res, next) => {
+userController.newSession = async (req, res, next) => {
+
+  const { userID } = req.body;
   // Here after creating or authenticating. Make a new 1.5 minute session and send them cookies.
+  const addCookie = await db.query(`INSERT INTO cookie (userID)`)
+
   res.cookie('SSID', res.locals.userId, { httpOnly: true });
   next();
 };
@@ -87,9 +93,14 @@ userController.authenticate = async (req, res, next) => {
   try {
     // Add USER_ID on res.locals.userId
     const userIdResult = await db.query(
-      `SELECT user_id FROM users WHERE name = $1, password = $2`,
-      [username, password]
+      `SELECT user_id, password FROM users WHERE name = $1`,
+      [username]
     );
+    console.log('Results of userIdResult', userIdResult.rows[0])
+    const { userId, password } = userIdResult.rows[0];
+
+    const userPassword = password;
+  
 // get user information from the table.
 // check if the user exist. IF NOT?
 //if user does exist, then compare deconstructed password with user password from table
@@ -103,11 +114,16 @@ userController.authenticate = async (req, res, next) => {
       });
     }
 
-    res.locals.userId = userId[0];
+    const authenticate = await bcrypt.compare(password, userPassword)
+
+    res.locals.userId = userId;
+
+    
+
+    if(authenticate) return next();
 
     console.log(`${username} is successfully signed in`);
 
-    return next();
   } catch (err) {
     return next({
       log: 'Error occured in userController.authenticate.',
