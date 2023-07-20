@@ -69,7 +69,7 @@ export const CommentsContainer = () => {
       typeAdvice: false,
       typeCodeSnippet: false,
       typeHelpOffer: false,
-      username: userInfo.name || 'tristan',
+      username: userInfo.username || 'tristan',
       languageid: 1,
       title: commentTitle,
       comment: commentEditor,
