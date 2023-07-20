@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/Comments.scss';
+import { UserContext } from '../contexts/UserContext.jsx';
 
 import { CommentHeader } from '../components/CommentHeader.jsx';
 import { CommentBox } from '../components/CommentBox.jsx';
@@ -10,13 +11,12 @@ import { CommentPostOverlay } from '../components/CommentPostOverlay.jsx';
 export const CommentsContainer = () => {
   //this is the state for the accordian, when the accordian is clicked it invokes an active index
   const [activeIndex, setActiveIndex] = useState(null);
-
   //state overlay that is changed to true when the button is clicked in order to appear
   const [showOverlay, setShowOverlay] = useState(false);
-
-  const [techData, setTechData] = useState(null);;
-  const [commentsToRender, setCommentsToRender] = useState([])
-
+  const [techData, setTechData] = useState(null);
+  const [commentsToRender, setCommentsToRender] = useState([]);
+  const { userInfo } = useContext(UserContext);
+  console.log(userInfo);
   //from here we had starting typing out the states to handle the backend format but realized we did not have enough time so it is not connected/finished
   /*
       CREATE TABLE posts(
@@ -70,6 +70,7 @@ export const CommentsContainer = () => {
       typeAdvice: false,
       typeCodeSnippet: false,
       typeHelpOffer: false,
+      username: userInfo.name,
       languageid: 1,
       title: commentTitle,
       comment: commentEditor,
