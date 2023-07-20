@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 //add containers and requirements for JS
 import { Navbar } from '../components/Navbar.jsx';
 import { useNavigate } from 'react-router';
+import { UserContext } from '../contexts/UserContext.jsx';
 
 const Login = (props) => {
   //create a state of invalid username/passowrd initialized to false
   const [invalidLogin, setShowInvalidLogin] = useState(false);
-  const { loggedIn, setLoggedInStatus } = props;
+  const { setLoggedInStatus } = props;
+  const { userInfo, setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
 
   // handling submission from form when user clicks submit or presses enter.
@@ -19,7 +21,7 @@ const Login = (props) => {
     // declaring an async function to submit the data to the endpoint.
     async function submitLoginData() {
       try {
-        const response = await fetch('/api/user/login', {
+        const request = await fetch('/api/user/login', {
           headers: { 'Content-Type': 'application/json' },
           method: 'POST',
           body: JSON.stringify({
@@ -27,6 +29,21 @@ const Login = (props) => {
             password: password.value,
           }),
         });
+        // if the response is bad, or in this case, non matching password, display the invalid login.
+        if (!request.ok) {
+          setShowInvalidLogin(true);
+
+          // assign the global username for it to be accessed across the site.
+        } else {
+          const response = await request.json();
+          setUserInfo({
+            ...userInfo,
+            username: response.username,
+            user_id: response.user_id,
+          });
+          setLoggedInStatus(true);
+          navigate('/Home');
+        }
       } catch (error) {
         console.log(error);
       }
@@ -68,55 +85,3 @@ const Login = (props) => {
 };
 
 export default Login;
-
-/* 
-
-const [UN, setUN] = setState('')
-
-const handleLogin = async () => {
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: UN, password: PW }),      <-
-      });
-      console.log(response);
-      const data = response.json();
-      if (response.ok) {
-        console.log('Frontend Login successful');
-        setIsLoggedIn(true);
-      } else {
-        console.log('Frontend Login unsuccesful');
-        setIncorrect('Incorrect combination. Try again.');
-      }
-    } catch (err) {
-      console.error('Error in Frontend Login');
-    }
-  };
-
-
-
-  HTML:
-  <Button onClick={() => handleLogin())}>
-
-  <input 
-  type='text' 
-  className='login_username' 
-  placeholder='Username' 
-  onChange={(e) => setPW(e.target.value)
-  ></input>
-
-
-
-  function mergedFunction() {
-    const username = dummy.innerhtml
-    setUN(username)
-    handleLogin()
-  }
-
-
-  <Button classname='dummy' onClick={mergedFunction}>
-
-*/
