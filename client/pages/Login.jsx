@@ -58,21 +58,21 @@ const Login = (props) => {
     <>
       <Navbar />
       <div className="login_form_container">
-        <form className="login_form" onSubmit={handleLoginSubmit}>
-          <label>Username</label>
+        <form onSubmit={handleLoginSubmit}>
+          <label className="login-labels">Username:</label>
           <input
             type="text"
             name="username"
             className="login_username"
             placeholder="Username"
-          ></input>
-          <label>Password</label>
+          ></input><br/>
+          <label className="login-labels">Password:</label>
           <input
             type="password"
             name="password"
             className="login_password"
             placeholder="Password"
-          ></input>
+          ></input><br/>
           <button className="form_submit_button" value="Submit">
             Submit Login Credentials
           </button>
