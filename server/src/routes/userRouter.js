@@ -8,9 +8,9 @@ const router = express.Router();
 
 // USERS
 // Add new User to the database
-router.post('/newuser',userController.makeUser,(req, res) => {
+router.post('/newuser', userController.makeUser, (req, res) => {
   // userController.newSession,
-    return res.status(200).json(res.locals.userID);
+  return res.status(200).json(res.locals.userId);
 });
 
 // Login
@@ -35,7 +35,9 @@ router.get(
   postController.findPostsByUser,
   (req, res) => {
     // res.locals.userRequest && res.locals.postList
-    res.status(200).json({user: res.locals.userRequest, posts: res.locals.postList});
+    res
+      .status(200)
+      .json({ user: res.locals.userRequest, posts: res.locals.postList });
   }
 );
 

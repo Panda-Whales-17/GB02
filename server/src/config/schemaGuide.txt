@@ -115,6 +115,12 @@ image: aws bucket (stretch goal)
     )
 
 
+    CREATE TABLE cookies(
+       ssid INTEGER NOT NULL,
+       FOREIGN KEY(ssid) REFERENCES users(user_id)
+    )
+
+
 ***SESSIONS***
 
 OAuth: 

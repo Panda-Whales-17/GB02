@@ -1,4 +1,6 @@
 import React from 'react';
+import '../styles/Comments.scss'
+
 import { CommentsContainer } from '../containers/CommentsContainer.jsx';
 import { Navbar } from '../components/Navbar.jsx';
 

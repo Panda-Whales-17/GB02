@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext.jsx';
 
 export function Navbar({ loggedInStatus, setLoggedInStatus }) {
   const navigate = useNavigate();
+  const { userInfo } = useContext(UserContext);
 
   function home() {
     navigate('/Home');
@@ -23,20 +25,18 @@ export function Navbar({ loggedInStatus, setLoggedInStatus }) {
   function logout() {
     setLoggedInStatus(false);
   }
-  
 
   if (loggedInStatus) {
     return (
       <ul className="Navbar">
-        <p>Welcome, {loggedInStatus}!</p>
+        <p>Welcome, {userInfo.name}!</p>
         <li onClick={home}>Home</li>
         <li onClick={comments}>Comments</li>
         <li onClick={profile}>Profile</li>
         <li onClick={logout}>Logout</li>
       </ul>
-    )
-  }
-  else {
+    );
+  } else {
     return (
       <ul className="Navbar">
         <li onClick={home}>Home</li>
@@ -45,5 +45,4 @@ export function Navbar({ loggedInStatus, setLoggedInStatus }) {
       </ul>
     );
   }
-  
 }

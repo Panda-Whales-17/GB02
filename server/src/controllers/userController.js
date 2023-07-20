@@ -6,14 +6,13 @@ const saltRounds = 10;
 const userController = {};
 
 userController.makeUser = async (req, res, next) => {
-  
   const { username, password, contact } = req.body;
-  
+
   //Check and see if username is taken
   const result = await db.query('SELECT name FROM users WHERE name = $1', [
     username,
   ]);
-  
+
   if (result.rows.length > 0) {
     res.locals.existingUser = true;
     return next({
@@ -31,42 +30,41 @@ userController.makeUser = async (req, res, next) => {
     });
 
   // Create new user in DB with hashed Pwd
-  
-  
-  const hash = await bcrypt.hash(password, saltRounds)
-  
-  console.log(hash)
-  
+
+  const hash = await bcrypt.hash(password, saltRounds);
+
+  console.log(hash);
+
   const text = `INSERT INTO users (name, password, contact, community)
   VALUES ($1, $2, $3, $4)`;
   const values = [username, hash, contact, 1]; // 1 for CTRI17
-  
+
   try {
-  // DATABASE CODE FOR CREATING USER GOES HERe
-       await db.query(text, values);
-         console.log('user added successfully');
+    // DATABASE CODE FOR CREATING USER GOES HERe
+    await db.query(text, values);
+    console.log('user added successfully');
 
     // Add USER_ID on res.locals.userId
-    const { rows } = db.query(
-      `SELECT user_id FROM users WHERE name = $1`,
-      [username]
-    );
-    const { user_id, password } = rows[0];
+    const newUser = await db.query(`SELECT * FROM users WHERE name = $1`, [
+      username,
+    ]);
+    // console.log( newUser.rows[0].user_id)
 
-    
+    const { name, user_id } = newUser.rows[0];
 
-    res.locals.userId = user_id;
-    console.log(res.locals.userId);
+    res.locals.userId = { name, user_id };
+    console.log('This is locals', res.locals.userId);
     return next();
   } catch (err) {
-    
     return next('Express error handler caught at userController.makeUser');
+  }
 };
 
-}
-
-userController.newSession = (req, res, next) => {
+userController.newSession = async (req, res, next) => {
+  const { userID } = req.body;
   // Here after creating or authenticating. Make a new 1.5 minute session and send them cookies.
+  const addCookie = await db.query(`INSERT INTO cookie (userID)`);
+
   res.cookie('SSID', res.locals.userId, { httpOnly: true });
   next();
 };
@@ -87,14 +85,19 @@ userController.authenticate = async (req, res, next) => {
   try {
     // Add USER_ID on res.locals.userId
     const userIdResult = await db.query(
-      `SELECT user_id FROM users WHERE name = $1, password = $2`,
-      [username, password]
+      `SELECT user_id, password FROM users WHERE name = $1`,
+      [username]
     );
-// get user information from the table.
-// check if the user exist. IF NOT?
-//if user does exist, then compare deconstructed password with user password from table
-// if true, redirect to hompage.$
-//else redirect to login page.
+    console.log('Results of userIdResult', userIdResult.rows[0]);
+    const { userId, password } = userIdResult.rows[0];
+
+    const userPassword = password;
+
+    // get user information from the table.
+    // check if the user exist. IF NOT?
+    //if user does exist, then compare deconstructed password with user password from table
+    // if true, redirect to hompage.$
+    //else redirect to login page.
     if (userIdResult.length == 0) {
       return next({
         log: 'usercontroller.authenticate: Invalid username or password',
@@ -103,11 +106,13 @@ userController.authenticate = async (req, res, next) => {
       });
     }
 
-    res.locals.userId = userId[0];
+    const authenticate = await bcrypt.compare(password, userPassword);
+
+    res.locals.userId = userId;
+
+    if (authenticate) return next();
 
     console.log(`${username} is successfully signed in`);
-
-    return next();
   } catch (err) {
     return next({
       log: 'Error occured in userController.authenticate.',

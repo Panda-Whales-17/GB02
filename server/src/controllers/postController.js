@@ -53,6 +53,8 @@ postController.makePost = async (req, res, next) => {
   // assign user_Id to uploader_id
   
 
+  
+
   try {
     // Add the post to the DB
     db.query(

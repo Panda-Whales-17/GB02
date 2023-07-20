@@ -14,36 +14,21 @@
   font-size: 22px;
 }
 
-.accordion-item {
-  margin-bottom: 1px;
-}
-.accordion-header-outer {
-  display: flex;
-}
 .details {
   display: flex;
 }
 
-.acc-footer {
-  display: flex;
-  margin-left: 0px;
-  background-color: #45a049;
-  width: 1200px;
-}
 .username {
   margin-right: 10px;
   margin-left: 0px;
   font-size: 16px;
 }
 
-.accordion-header-outer-p {
-  margin-top: 18px;
-  margin-left: 5px;
-}
 .accordion-header-outer div {
   margin-top: 18px;
   margin-left: 5px;
 }
+
 .accordion-header {
   display: flex;
   justify-content: flex-end;
@@ -56,10 +41,6 @@
   font-size: 25px;
 }
 
-.acc-footer p {
-  font-size: 18px;
-}
-
 .accordion-header {
   display: flex;
   justify-content: space-between;
@@ -68,11 +49,6 @@
   flex-direction: column;
 }
 
-.date {
-  margin-left: auto;
-  margin-right: 70px;
-  font-size: 16px;
-}
 .tags {
   font-size: 16px;
 }
@@ -95,12 +71,6 @@
   width: 500px;
   margin-bottom: 15px;
   background-color: white;
-}
-
-.experience {
-  padding-top: 20px !important;
-  margin-top: 0px !important;
-  padding-bottom: 10px;
 }
 
 .overlay-comments {
@@ -126,35 +96,11 @@
   z-index: 10000;
 }
 
-.form {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  background-color: #45a049;
-}
-
 .formGroup-two {
   margin-bottom: 20px;
   width: 832px;
 }
 
-.formGroup-two > div {
-  margin-left: 20px;
-}
-
-.formGroup-2 {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-.formGroup > h2 {
-  margin-bottom: 50px;
-}
-.line {
-  margin-top: 20px;
-  background-color: #45a049;
-  width: 90%;
-}
 .input-one-c {
   height: 55px;
   border: 1px solid #ccc;
@@ -167,6 +113,7 @@
   border: none;
   outline: none;
 }
+
 .input-one-image {
   height: 55px;
   border: 1px solid #ccc;
@@ -179,10 +126,6 @@
   outline: none;
   margin-top: 20px;
 }
-.input-one-c:hover {
-  border: none;
-  outline: none;
-}
 
 .input-one-first {
   height: 55px;
@@ -194,10 +137,6 @@
   margin-bottom: 35px;
   margin-top: 20px;
   border-radius: 15px;
-  border: none;
-  outline: none;
-}
-.input-one-first:hover {
   border: none;
   outline: none;
 }
@@ -218,11 +157,6 @@
   outline: none;
 }
 
-.input-description:hover {
-  border: none;
-  outline: none;
-}
-
 .login-button {
   padding-bottom: 15px;
   color: white;
@@ -237,14 +171,6 @@
 
 .login-button:hover {
   background-color: #45a049;
-}
-
-.input-one:focus {
-  outline: none;
-}
-
-h5 {
-  margin-bottom: 0px;
 }
 
 .custom-editor > .tox-pop {
