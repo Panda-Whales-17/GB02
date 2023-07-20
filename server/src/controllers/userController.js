@@ -81,6 +81,7 @@ userController.authenticate = async (req, res, next) => {
 
   // If they don't have a valid session, check req.body for username + password
   const { username, password } = req.body;
+  const userPassword = password;
   // Hash salt + Pwd and check database. If valid, next.
   try {
     // Add USER_ID on res.locals.userId
@@ -88,10 +89,8 @@ userController.authenticate = async (req, res, next) => {
       `SELECT user_id, password FROM users WHERE name = $1`,
       [username]
     );
-    console.log('Results of userIdResult', userIdResult.rows[0]);
-    const { userId, password } = userIdResult.rows[0];
 
-    const userPassword = password;
+    const { user_id, password } = userIdResult.rows[0];
 
     // get user information from the table.
     // check if the user exist. IF NOT?
@@ -106,13 +105,23 @@ userController.authenticate = async (req, res, next) => {
       });
     }
 
-    const authenticate = await bcrypt.compare(password, userPassword);
+    const authenticate = await bcrypt
+      .compare(userPassword, password)
+      .then(function (isMatching) {
+        if (isMatching) {
+          return true;
+        }
+        return false;
+      });
 
-    res.locals.userId = userId;
-
-    if (authenticate) return next();
-
-    console.log(`${username} is successfully signed in`);
+    res.locals.userId = { username, user_id };
+    console.log('res.locals.userId: ', res.locals.userId);
+    if (authenticate) {
+      console.log(`${username} is successfully signed in`);
+    } else {
+      throw new Error('wrong password');
+    }
+    return next();
   } catch (err) {
     return next({
       log: 'Error occured in userController.authenticate.',

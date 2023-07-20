@@ -17,9 +17,10 @@ router.post('/newuser', userController.makeUser, (req, res) => {
 router.post(
   '/login',
   userController.authenticate,
+  // FIX: session seems to be having some errors. will look into this tomororw -DK.
   userController.newSession,
   (req, res) => {
-    return res.status(200).send();
+    return res.status(200).send(res.locals.userId);
   }
 );
 

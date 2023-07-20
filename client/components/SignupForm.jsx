@@ -35,7 +35,7 @@ export function SignupForm(props) {
           // getting the response back from the server and using that data in our global context.
           const response = await request.json();
           const { name, user_id } = response;
-          setUserInfo({ name, user_id });
+          setUserInfo({ ...userInfo, username: name, user_id });
           setLoggedInStatus(true);
           setSignupData(defaultUser);
           navigate('/Home');

@@ -29,7 +29,7 @@ export function Navbar({ loggedInStatus, setLoggedInStatus }) {
   if (loggedInStatus) {
     return (
       <ul className="Navbar">
-        <p>Welcome, {userInfo.name}!</p>
+        <p>Welcome, {userInfo.username}!</p>
         <li onClick={home}>Home</li>
         <li onClick={comments}>Comments</li>
         <li onClick={profile}>Profile</li>
