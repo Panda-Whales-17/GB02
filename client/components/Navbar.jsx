@@ -24,6 +24,23 @@ export function Navbar({ loggedInStatus, setLoggedInStatus }) {
 
   function logout() {
     setLoggedInStatus(false);
+    async function deleteSsid() {
+      try {
+        const request = await fetch(
+          `/api/user/signout?user_id=${userInfo.user_id}`,
+          {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+          }
+        );
+        if (request.ok) {
+          navigate('/Home');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      deleteSsid();
+    }
   }
 
   if (loggedInStatus) {
