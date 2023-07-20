@@ -115,7 +115,6 @@ postController.findPostsByUser = async (req, res, next) => {
 postController.findPostsByTech = async (req, res, next) => {
   // Get all post with req.params.id == techId
   // Attach to res.locals.postList;
-  console.log(postsByTech);
   const techId = req.params.id;
   const lookupText = 'SELECT posts.*, users.name FROM posts LEFT JOIN users ON posts.uploader = users.user_id WHERE tech = $1';
   const lookupVals = [techId];
