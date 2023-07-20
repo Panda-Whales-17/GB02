@@ -13,7 +13,7 @@ import App from '../client/App.jsx';
 describe('Testing the page layouts', () => {
 
   let app;
-  beforeAll(() => {
+  beforeEach(() => {
     app = render(
       <BrowserRouter>
         <App />
@@ -22,15 +22,20 @@ describe('Testing the page layouts', () => {
   })
 
   test('Renders the home page', () => {
-    expect(app.getByText("Cohort: CTRI 17")).toBeTruthy();
-    expect(app.getByText("+ ADD TECH")).toBeTruthy();
-    expect(app.getByPlaceholderText("Search APIs...")).toBeTruthy();
+    expect(app.getByText('Cohort: CTRI 17')).toBeTruthy();
+    expect(app.getByText('+ ADD TECH')).toBeTruthy();
+    expect(app.getByPlaceholderText('Search APIs...')).toBeTruthy();
   });
 
-  test('Renders make tech form when clicking the button', () => {
-    const button = app.getByText('+ ADD TECH');
+  test('Renders make tech form when clicking the button', async () => {
+    const button = screen.getByText('+ ADD TECH');
 
-    userEvent.click(button);
-    expect(app.getByText(''))
+    await userEvent.click(button);
+    expect(screen.getByText('Add Tech')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Add API Name')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Add API URL')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Add Brief Description')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Add Image URL')).toBeTruthy();
+    expect(screen.getByText('Submit!')).toBeTruthy();
   })
 })
