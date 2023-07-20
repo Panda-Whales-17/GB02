@@ -1,5 +1,6 @@
 import React from 'react';
 import HelperFunctions from '../helper-functions';
+import ReactMarkdown from 'react-markdown';
 
 export function CommentBox({ item, index, activeIndex, handleAccordionClick }) {
   return (
