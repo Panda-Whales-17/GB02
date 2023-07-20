@@ -89,7 +89,7 @@ postController.editPost = (req, res, next) => {
 
 postController.deletePost = async (req, res, next) => {
 // find post id
-const { id } = req. param;
+const { id } = req.params;
 try{
 // Query database and Delete * from post Where postid = ?
   // An authorized/authenticated user wants to delete their post (res.locals.postRequest)

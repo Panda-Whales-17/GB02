@@ -41,7 +41,7 @@ router.patch(
 router.put(
   '/:id',
   postController.findPost,
-  userController.authorizeEdit,
+  // userController.authorizeEdit,
   postController.deletePost,
   (req, res) => {
     res.status(200).send();
