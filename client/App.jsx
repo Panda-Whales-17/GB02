@@ -1,6 +1,6 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useState } from 'react';
 // import helperFunctions from './helper-functions.js';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 //add containers and requirements for JS
 import { Home } from './pages/Home.jsx';
 import Comments from './pages/Comments.jsx';
@@ -8,15 +8,17 @@ import Login from './pages/Login.jsx';
 import Profile from './pages/Profile.jsx';
 import './styles/_appStyles.scss';
 import { SignupForm } from './components/SignupForm.jsx';
+import { UserContext } from './contexts/UserContext.jsx';
 
 const App = () => {
   //create a High Level state for whether the user is logged in or not
   //make the loggedInStatus either false OR the User's ID/cookie from database as idenfier
   const [loggedInStatus, setLoggedInStatus] = useState(false);
-  const LoggedInContext = createContext();
+  const defaultUser = { username: '', user_id: null };
+  const [userInfo, setUserInfo] = useState(defaultUser);
 
   return (
-    <BrowserRouter>
+    <UserContext.Provider value={{ userInfo, setUserInfo }}>
       <Routes>
         <Route
           index
@@ -73,7 +75,7 @@ const App = () => {
           }
         />
       </Routes>
-    </BrowserRouter>
+    </UserContext.Provider>
   );
 };
 

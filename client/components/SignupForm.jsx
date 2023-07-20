@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar } from './Navbar.jsx';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '../contexts/UserContext.jsx';
 import { useNavigate } from 'react-router';
 
 export function SignupForm(props) {
@@ -8,29 +9,39 @@ export function SignupForm(props) {
   const [signupData, setSignupData] = useState(defaultUser);
   const [displayError, setDisplayError] = useState(false);
   const { setLoggedInStatus } = props;
+  const { userInfo, setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
 
+  // when a change happens on the signup input field, it updates with every change.
   const handleOnChange = (event) => {
     const { name, value, contact } = event.target;
     setSignupData((signupData) => ({ ...signupData, [name]: value }));
   };
-  console.log(signupData);
+  // when we submit the data, a function create user will post the request to the server and return the response.
   const handleSignupSubmit = (event) => {
     event.preventDefault();
     async function createUser() {
       try {
-        await fetch('/api/user/newuser', {
+        const request = await fetch('/api/user/newuser', {
           headers: { 'Content-Type': 'application/json' },
           method: 'POST',
           body: JSON.stringify(signupData),
         });
-        setSignupData(defaultUser);
-        setLoggedInStatus(true);
-        setDisplayError(false);
-        navigate('/Home');
+
+        // if the response is bad, we'll display the error of username already taken.
+        if (!request.ok) {
+          setDisplayError(true);
+        } else {
+          // getting the response back from the server and using that data in our global context.
+          const response = await request.json();
+          const { name, user_id } = response;
+          setUserInfo({ name, user_id });
+          setLoggedInStatus(true);
+          setSignupData(defaultUser);
+          navigate('/Home');
+        }
       } catch (error) {
-        console.log(error);
-        setDisplayError(true);
+        console.error('Error:', error);
       }
     }
     createUser();
@@ -74,7 +85,7 @@ export function SignupForm(props) {
         </form>
         {displayError ? (
           <p id="signup-error">
-            Username Already taken! Please try another username
+            Username already taken! Please try another username.
           </p>
         ) : (
           ''
