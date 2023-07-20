@@ -87,10 +87,22 @@ postController.editPost = (req, res, next) => {
   next();
 };
 
-postController.deletePost = (req, res, next) => {
+postController.deletePost = async (req, res, next) => {
+// find post id
+const { id } = req. param;
+try{
+// Query database and Delete * from post Where postid = ?
   // An authorized/authenticated user wants to delete their post (res.locals.postRequest)
   // Delete the post from the database by databaseId.
+ const toDelete = await db.query(` DELETE FROM posts WHERE post_id = $1`, [id])
+ console.log(`Post ${id} has been deleted`)
   next();
+} catch(err){
+  return next({
+      log: 'Error at postController.deletePost.',
+      status: 401,
+      message: 'Post could not be deleted.',})
+}
 };
 
 postController.findPostsByUser = async (req, res, next) => {
