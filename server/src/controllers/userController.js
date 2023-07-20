@@ -9,7 +9,7 @@ userController.makeUser = async (req, res, next) => {
   const { username, password, contact } = req.body;
 
   //Check and see if username is taken
-  const result = await db.query('SELECT name FROM users WHERE name = $1', [
+  const result = await db.query('SELECT name FROM users WHERE name = $1;', [
     username,
   ]);
 
@@ -36,7 +36,7 @@ userController.makeUser = async (req, res, next) => {
   console.log(hash);
 
   const text = `INSERT INTO users (name, password, contact, community)
-  VALUES ($1, $2, $3, $4)`;
+  VALUES ($1, $2, $3, $4);`;
   const values = [username, hash, contact, 1]; // 1 for CTRI17
 
   try {
@@ -45,7 +45,7 @@ userController.makeUser = async (req, res, next) => {
     console.log('user added successfully');
 
     // Add USER_ID on res.locals.userId
-    const newUser = await db.query(`SELECT * FROM users WHERE name = $1`, [
+    const newUser = await db.query(`SELECT * FROM users WHERE name = $1;`, [
       username,
     ]);
     // console.log( newUser.rows[0].user_id)
@@ -61,17 +61,48 @@ userController.makeUser = async (req, res, next) => {
 };
 
 userController.newSession = async (req, res, next) => {
-  const { userID } = req.body;
-  // Here after creating or authenticating. Make a new 1.5 minute session and send them cookies.
-  const addCookie = await db.query(`INSERT INTO cookie (userID)`);
+  try {
+    const { username } = req.query;
+    const user = await db.query(`SELECT user_id FROM users WHERE name = $1`, [
+      username,
+    ]);
+    const user_id = user.rows[0].user_id;
+    const found = await db.query(`SELECT ssid FROM cookies WHERE ssid = $1;`, [
+      user_id,
+    ]);
 
-  res.cookie('SSID', res.locals.userId, { httpOnly: true });
-  next();
+    if (found.rows.length === 0) {
+      const addCookie = await db.query(
+        `INSERT INTO cookies (ssid) VALUES($1)`,
+        [user_id]
+      );
+      console.log(`Cookie successfully added: ${addCookie}`);
+      res.cookie('SSID', user_id, { httpOnly: true });
+    } else {
+      console.log('cookie already exists, cannot add.');
+    }
+    return next();
+  } catch (error) {
+    return next({
+      log: error,
+      message: 'cookie failed to create',
+    });
+  }
 };
 
-userController.endSession = (req, res, next) => {
-  res.clearCookie('SSID');
-  next();
+userController.endSession = async (req, res, next) => {
+  try {
+    res.clearCookie('SSID');
+    const { user_id } = req.query;
+    await db.query(`DELETE FROM cookies WHERE ssid = $1;`, [user_id]);
+    console.log(`cookie successfully deleted`);
+    return next();
+  } catch (error) {
+    return next({
+      log: error,
+      message: 'Could not delete cookie',
+    });
+  }
 };
 
 userController.authenticate = async (req, res, next) => {
@@ -115,7 +146,6 @@ userController.authenticate = async (req, res, next) => {
       });
 
     res.locals.userId = { username, user_id };
-    console.log('res.locals.userId: ', res.locals.userId);
     if (authenticate) {
       console.log(`${username} is successfully signed in`);
     } else {
@@ -147,7 +177,7 @@ userController.authorizeEdit = (req, res, next) => {
 
 userController.findUser = async (req, res, next) => {
   const userName = req.params.id;
-  const lookupText = 'SELECT * FROM users WHERE name = $1';
+  const lookupText = 'SELECT * FROM users WHERE name = $1;';
   const lookupVals = [userName];
   try {
     const { rows } = await db.query(lookupText, lookupVals);
