@@ -1,7 +1,7 @@
 import React from 'react';
 import HelperFunctions from '../helper-functions';
 
-export function CommentBox({ item, index, activeIndex, handleAccordionClick }) {
+export function CommentBox({ item, index, activeIndex, handleAccordionClick, deletePost }) {
   return (
     <div
       key={index}
@@ -23,6 +23,7 @@ export function CommentBox({ item, index, activeIndex, handleAccordionClick }) {
         <div className="accordion-content">
           <div>
             <div className="experience">
+              <button onClick={() => deletePost(item)}>Delete Post</button>
               {HelperFunctions.md(item.comment)}
             </div>
             <img src={item.image} className="accordion-image" />

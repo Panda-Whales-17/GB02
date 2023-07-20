@@ -38,23 +38,27 @@ export const CommentsContainer = () => {
 
   //to find id of our url
   const { id } = useParams();
+  const techId = id;
 
   // initializing the page
   useEffect(() => {
     //the tech id is linked to the home page box technology clicked
-    const techId = id;
 
     fetch('/api/tech/' + techId)
       .then(response => response.json())
       .then(data => setTechData(data))
       .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
+      
+    renderPosts();
+      
+  }, []);
 
+  const renderPosts = () => {
     fetch('/api/tech/posts/' + techId)
       .then(response => response.json())
       .then(data => setCommentsToRender(data))
       .catch(err => console.log('And error occured in CommentsContainer.jsx useEffect when fetching the posts: ' + err));
-
-  }, []);
+  }
 
   const addComment = async (e) => {
     e.preventDefault();
@@ -85,13 +89,29 @@ export const CommentsContainer = () => {
         },
         body: JSON.stringify(newComment),
       });
-
+      
+      renderPosts();
       setShowOverlay(false);
     } 
     catch (err) {
       console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
     }
   };
+
+  const deletePost = (item) => {
+    fetch('/api/post/' + item.post_id, {
+      method: 'PUT'
+    })
+      .then(response => {
+        if(response.status === 200) renderPosts();
+        else {
+          console.log('Did not receive OK from response in deletePost: ', response.status);
+        }
+      })
+      .catch(err => {
+        console.log('An error occured when deleting post in CommentsContainer.jsx deletePost: ' + err);
+      });
+  }
 
   const openOverlay = () => {
     showOverlay ? setShowOverlay(false) : setShowOverlay(true);
@@ -108,6 +128,7 @@ export const CommentsContainer = () => {
       index={index} 
       activeIndex={activeIndex}
       handleAccordionClick={handleAccordionClick}
+      deletePost={deletePost}
     />
   });
 
