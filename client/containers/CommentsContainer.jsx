@@ -7,7 +7,6 @@ import { CommentHeader } from '../components/CommentHeader.jsx';
 import { CommentBox } from '../components/CommentBox.jsx';
 import { CommentPostOverlay } from '../components/CommentPostOverlay.jsx';
 
-
 export const CommentsContainer = () => {
   //this is the state for the accordian, when the accordian is clicked it invokes an active index
   const [activeIndex, setActiveIndex] = useState(null);
@@ -45,23 +44,40 @@ export const CommentsContainer = () => {
     const techId = id;
 
     fetch('/api/tech/' + techId)
-      .then(response => response.json())
-      .then(data => setTechData(data))
-      .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
+      .then((response) => response.json())
+      .then((data) => setTechData(data))
+      .catch((err) =>
+        console.log(
+          'An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' +
+            err
+        )
+      );
 
     fetch('/api/tech/posts/' + techId)
-      .then(response => response.json())
-      .then(data => setCommentsToRender(data))
-      .catch(err => console.log('And error occured in CommentsContainer.jsx useEffect when fetching the posts: ' + err));
-
+      .then((response) => response.json())
+      .then((data) => setCommentsToRender(data))
+      .catch((err) =>
+        console.log(
+          'And error occured in CommentsContainer.jsx useEffect when fetching the posts: ' +
+            err
+        )
+      );
   }, []);
 
   const addComment = async (e) => {
     e.preventDefault();
-    const commentTitle = document.getElementById('post-overlay-title-input').value; // title
-    const commentLanguage = document.getElementById('post-overlay-language-input').value; // Language
-    const commentEditor = document.getElementById('post-overlay-editor-input').value; // Editor
-    const commentImage = document.getElementById('post-overlay-image-input').value; // Image
+    const commentTitle = document.getElementById(
+      'post-overlay-title-input'
+    ).value; // title
+    const commentLanguage = document.getElementById(
+      'post-overlay-language-input'
+    ).value; // Language
+    const commentEditor = document.getElementById(
+      'post-overlay-editor-input'
+    ).value; // Editor
+    const commentImage = document.getElementById(
+      'post-overlay-image-input'
+    ).value; // Image
 
     const newComment = {
       tech_id: id,
@@ -69,13 +85,13 @@ export const CommentsContainer = () => {
       typeAdvice: false,
       typeCodeSnippet: false,
       typeHelpOffer: false,
-      username: userInfo.name || 'tristan',
+      username: userInfo.username || 'tristan',
       languageid: 1,
       title: commentTitle,
       comment: commentEditor,
-      image: commentImage
-    }
-    
+      image: commentImage,
+    };
+
     try {
       //on the button click the overlay is set back to false
       const response = await fetch('/api/post', {
@@ -87,9 +103,11 @@ export const CommentsContainer = () => {
       });
 
       setShowOverlay(false);
-    } 
-    catch (err) {
-      console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
+    } catch (err) {
+      console.log(
+        'An error occured when making a new post in CommentsContainer.jsx addComment: ' +
+          err
+      );
     }
   };
 
@@ -102,33 +120,38 @@ export const CommentsContainer = () => {
   };
 
   const comments = commentsToRender.map((item, index) => {
-    return <CommentBox 
-      key={index + 'commentBox'}
-      item={item}
-      index={index} 
-      activeIndex={activeIndex}
-      handleAccordionClick={handleAccordionClick}
-    />
+    return (
+      <CommentBox
+        key={index + 'commentBox'}
+        item={item}
+        index={index}
+        activeIndex={activeIndex}
+        handleAccordionClick={handleAccordionClick}
+      />
+    );
   });
 
   return (
     <div className="container-primary">
+      {techData && (
+        <CommentHeader
+          techImage={techData.tech.image_url}
+          techLink={techData.link}
+          techName={techData.tech.name}
+          techDescription={techData.tech.description}
+          openOverlay={openOverlay}
+        />
+      )}
 
-      {techData && <CommentHeader 
-        techImage={techData.tech.image_url}
-        techLink={techData.link}
-        techName={techData.tech.name}
-        techDescription={techData.tech.description}
-        openOverlay={openOverlay}
-      />}
-      
+      {showOverlay && (
+        <CommentPostOverlay openOverlay={openOverlay} addComment={addComment} />
+      )}
 
-      {showOverlay && <CommentPostOverlay
-        openOverlay={openOverlay}
-        addComment={addComment}
-      />}
-
-      <input type="text" className="search-bar" placeholder="Search Comments..." />
+      <input
+        type="text"
+        className="search-bar"
+        placeholder="Search Comments..."
+      />
 
       <div className="accordion">
         {comments.length > 0 ? comments : <p>No posts yet!</p>}
