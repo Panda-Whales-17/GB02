@@ -10,6 +10,11 @@ const techRouter = require(path.join(__dirname, '/src/routes/techRouter'));
 const postRouter = require(path.join(__dirname, '/src/routes/postRouter'));
 const userRouter = require(path.join(__dirname, '/src/routes/userRouter'));
 
+// controllers
+const userController = require(path.join(
+  __dirname,
+  '/src/controllers/userController'
+));
 
 // Parse incoming JSON, static reqeusts, forms, and cookies
 app.use(express.json());
@@ -21,6 +26,14 @@ app.use(express.static('./dist'));
 app.use('/api/tech', techRouter);
 app.use('/api/post', postRouter);
 app.use('/api/user', userRouter);
+
+// when the page first loads up, we check to see if a user has still been logged in.
+app.get('/api', userController.isLoggedIn, (req, res) => {
+  if (res.locals.loggedIn) {
+    return res.status(200).json(res.locals.user);
+  }
+  return res.status(401);
+});
 
 // Default unknown page handler
 app.use('*', (req, res) => {
