@@ -103,6 +103,7 @@ export const CommentsContainer = () => {
 
   const comments = commentsToRender.map((item, index) => {
     return <CommentBox 
+      key={index + 'commentBox'}
       item={item}
       index={index} 
       activeIndex={activeIndex}
