@@ -51,10 +51,7 @@ export const CommentsContainer = () => {
       .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
 
     fetch('/api/tech/posts/' + techId)
-      .then(response => {
-        console.log(response);
-        return response.json()
-      })
+      .then(response => response.json())
       .then(data => setCommentsToRender(data))
       .catch(err => console.log('And error occured in CommentsContainer.jsx useEffect when fetching the posts: ' + err));
 
