@@ -10,14 +10,23 @@ import '@testing-library/jest-dom'
 import App from '../client/App.jsx';
 
 describe('Testing the page layouts', () => {
-  test('renders the landing page', () => {
-    const test = render(
+
+  let app;
+  beforeAll(() => {
+    app = render(
       <BrowserRouter>
         <App />
       </BrowserRouter>
     );
-    expect(test.getByText("Cohort: CTRI 17")).toBeTruthy();
-    expect(test.getByText("Cohort: CTRI 17")).toBeTruthy();
-    console.log('yes');
+  })
+
+  test('Renders the home page', () => {
+    expect(app.getByText("Cohort: CTRI 17")).toBeTruthy();
+    expect(app.getByText("+ ADD TECH")).toBeTruthy();
+    expect(app.getByPlaceholderText("Search APIs...")).toBeTruthy();
   });
+
+  test('Can add a new tech', () => {
+    
+  })
 })
