@@ -25,8 +25,8 @@ router.post(
 );
 
 //Sign-Out
-router.get('/signout', userController.endSession, (req, res) => {
-  res.status(200).redirect('/');
+router.delete('/signout', userController.endSession, (req, res) => {
+  res.sendStatus(200);
 });
 
 // Look up a single user

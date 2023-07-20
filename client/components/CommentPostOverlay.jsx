@@ -48,9 +48,9 @@ export const CommentPostOverlay = ({ openOverlay, addComment }) => {
               }}
             />
             <input
-              type="file"
+              type="text"
               className="input-one-image"
-              accept="image/*"
+              placeholder="Image URL"
               id="post-overlay-image-input"
             />
             <button
