@@ -51,7 +51,10 @@ export const CommentsContainer = () => {
       .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
 
     fetch('/api/tech/posts/' + techId)
-      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        return response.json()
+      })
       .then(data => setCommentsToRender(data))
       .catch(err => console.log('And error occured in CommentsContainer.jsx useEffect when fetching the posts: ' + err));
 
@@ -76,26 +79,26 @@ export const CommentsContainer = () => {
       image: commentImage
     }
     
-    console.log('Submitting comments is commented out until fixed');
-    // try {
-    //   //on the button click the overlay is set back to false
-    //   const response = await fetch('/api/post', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(newComment),
-    //   });
+    try {
+      //on the button click the overlay is set back to false
+      const response = await fetch('/api/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newComment),
+      });
 
-    //   const data = await response.json();
 
-    //   setShowOverlay(false);
-    //   console.log('success');
-    //   console.log('data returned', data);
-    // } 
-    // catch (err) {
-    //   console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
-    // }
+      const data = await response.json();
+
+      setShowOverlay(false);
+      console.log('success');
+      console.log('data returned', data);
+    } 
+    catch (err) {
+      console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
+    }
   };
 
   const openOverlay = () => {
