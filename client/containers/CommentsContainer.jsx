@@ -16,7 +16,6 @@ export const CommentsContainer = () => {
   const [techData, setTechData] = useState(null);
   const [commentsToRender, setCommentsToRender] = useState([]);
   const { userInfo } = useContext(UserContext);
-  console.log(userInfo);
   //from here we had starting typing out the states to handle the backend format but realized we did not have enough time so it is not connected/finished
   /*
       CREATE TABLE posts(
@@ -87,12 +86,7 @@ export const CommentsContainer = () => {
         body: JSON.stringify(newComment),
       });
 
-
-      const data = await response.json();
-
       setShowOverlay(false);
-      console.log('success');
-      console.log('data returned', data);
     } 
     catch (err) {
       console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
@@ -108,6 +102,7 @@ export const CommentsContainer = () => {
   };
 
   const comments = commentsToRender.map((item, index) => {
+    console.log(item);
     return <CommentBox 
       item={item}
       index={index} 

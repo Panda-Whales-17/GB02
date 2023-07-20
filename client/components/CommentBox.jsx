@@ -1,6 +1,5 @@
 import React from 'react';
 import HelperFunctions from '../helper-functions';
-import ReactMarkdown from 'react-markdown';
 
 export function CommentBox({ item, index, activeIndex, handleAccordionClick }) {
   return (
@@ -13,7 +12,7 @@ export function CommentBox({ item, index, activeIndex, handleAccordionClick }) {
           className="accordion-header"
           onClick={() => handleAccordionClick(index)}
         >
-          <div>{item.title}</div>
+          <div>{item.title || 'No title'}</div>
           <div className="details">
             <p className="username">Posted By: {item.name}</p>
             <p className="tags"></p>
@@ -26,7 +25,7 @@ export function CommentBox({ item, index, activeIndex, handleAccordionClick }) {
             <div className="experience">
               {HelperFunctions.md(item.comment)}
             </div>
-            <img src={item.image} alt="Image" className="accordion-image" />
+            <img src={item.image} className="accordion-image" />
           </div>
         </div>
       )}
