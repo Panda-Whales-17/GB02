@@ -21,14 +21,17 @@ const Login = (props) => {
     // declaring an async function to submit the data to the endpoint.
     async function submitLoginData() {
       try {
-        const request = await fetch('/api/user/login', {
-          headers: { 'Content-Type': 'application/json' },
-          method: 'POST',
-          body: JSON.stringify({
-            username: username.value,
-            password: password.value,
-          }),
-        });
+        const request = await fetch(
+          `/api/user/login?username=${username.value}`,
+          {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({
+              username: username.value,
+              password: password.value,
+            }),
+          }
+        );
         // if the response is bad, or in this case, non matching password, display the invalid login.
         if (!request.ok) {
           setShowInvalidLogin(true);
