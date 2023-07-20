@@ -86,25 +86,25 @@ techController.makeTech = async (req, res, next) => {
 
     console.log('New card id: ', tech_id);
 
-    if (keywords.length) {
-      for (let i = 0; i < keywords.length; i++) {
-        //find tech_keyword_id
-        const { rows } = await db.query(
-          `SELECT tech_keyword_id FROM tech_keywords WHERE keyword = $1`,
-          [keywords[i]]
-        );
-        const tech_keyword_id = rows[0].tech_keyword_id;
+    // if (keywords.length) {
+    //   for (let i = 0; i < keywords.length; i++) {
+    //     //find tech_keyword_id
+    //     const { rows } = await db.query(
+    //       `SELECT tech_keyword_id FROM tech_keywords WHERE keyword = $1`,
+    //       [keywords[i]]
+    //     );
+    //     const tech_keyword_id = rows[0].tech_keyword_id;
 
-        console.log(tech_keyword_id);
+    //     console.log(tech_keyword_id);
 
-        //insert to tech_v_tech_keyword
-        await db.query(
-          `INSERT INTO tech_keywords_v_techs (tech, tech_keyword) VALUES ($1, $2)`,
-          [tech_id, tech_keyword_id]
-        );
-        console.log('added keywords');
-      }
-    }
+    //     //insert to tech_v_tech_keyword
+    //     await db.query(
+    //       `INSERT INTO tech_keywords_v_techs (tech, tech_keyword) VALUES ($1, $2)`,
+    //       [tech_id, tech_keyword_id]
+    //     );
+    //     console.log('added keywords');
+    //   }
+    // }
 
     return next();
   } catch (err) {
