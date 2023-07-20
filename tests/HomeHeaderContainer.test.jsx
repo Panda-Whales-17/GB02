@@ -3,13 +3,21 @@
  */
 
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import renderer from 'react-test-renderer';
-import '@testing-library/jest-dom'
-import { HomeHeaderContainer } from '../client/containers/HomeHeaderContainer.jsx';
+import { BrowserRouter } from 'react-router-dom';
 
-test('renders the landing page', () => {
-  const test = render(<HomeHeaderContainer />);
-  expect(test.getByText("Cohort: CTRI 17")).toBeTruthy();
-  console.log('yes');
-});
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom'
+import App from '../client/App.jsx';
+
+describe('Testing the page layouts', () => {
+  test('renders the landing page', () => {
+    const test = render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    expect(test.getByText("Cohort: CTRI 17")).toBeTruthy();
+    expect(test.getByText("Cohort: CTRI 17")).toBeTruthy();
+    console.log('yes');
+  });
+})
