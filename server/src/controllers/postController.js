@@ -28,11 +28,11 @@ postController.findPost = async (req, res, next) => {
 
 postController.makePost = async (req, res, next) => {
   // An authorized user is posting
-  const { username } = req.param;
+  const { username } = req.body;
   // Get username from cookies/session
   //const { username } = req.cookies;
   // const uploader_id = req.cookies('SSID');
-  const uploader_id = db.query(`SELECT user_id FROM users WHERE username = $1`, [ username ])
+  const uploader_id = await db.query(`SELECT user_id FROM users WHERE name = $1`, [ username ])
   // Get post from body
   const {
     tech_id,
@@ -63,7 +63,7 @@ postController.makePost = async (req, res, next) => {
       [
         title,
         tech_id,
-        uploader_id,
+        uploader_id.rows[0].user_id,
         typeReview,
         typeAdvice,
         typeCodeSnippet,
@@ -116,7 +116,7 @@ postController.findPostsByTech = async (req, res, next) => {
   // Get all post with req.params.id == techId
   // Attach to res.locals.postList;
   const techId = req.params.id;
-  const lookupText = 'SELECT * FROM posts WHERE tech = $1';
+  const lookupText = 'SELECT posts.*, users.name FROM posts LEFT JOIN users ON posts.uploader = users.user_id WHERE tech = $1';
   const lookupVals = [techId];
   try {
     const { rows } = await db.query(lookupText, lookupVals);

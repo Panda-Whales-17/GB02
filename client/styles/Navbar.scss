@@ -27,6 +27,10 @@ add a universal "on hover color" to a "variables" pallete scss file AND import t
   border-radius: 25%;
 }
 
+.Navbar p {
+  margin: 0px;
+}
+
 .Navbar li {
   margin-left: 20px;
   background-color: $tertiaryColor;

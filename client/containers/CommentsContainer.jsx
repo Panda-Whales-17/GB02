@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/Comments.scss';
+import { UserContext } from '../contexts/UserContext.jsx';
 
 import { CommentHeader } from '../components/CommentHeader.jsx';
 import { CommentBox } from '../components/CommentBox.jsx';
 import { CommentPostOverlay } from '../components/CommentPostOverlay.jsx';
 
 
-export const CommentsContainer = ({ commentsToRender }) => {
+export const CommentsContainer = () => {
   //this is the state for the accordian, when the accordian is clicked it invokes an active index
   const [activeIndex, setActiveIndex] = useState(null);
-
   //state overlay that is changed to true when the button is clicked in order to appear
   const [showOverlay, setShowOverlay] = useState(false);
-
   const [techData, setTechData] = useState(null);
-
+  const [commentsToRender, setCommentsToRender] = useState([]);
+  const { userInfo } = useContext(UserContext);
+  console.log(userInfo);
   //from here we had starting typing out the states to handle the backend format but realized we did not have enough time so it is not connected/finished
   /*
       CREATE TABLE posts(
@@ -49,6 +50,11 @@ export const CommentsContainer = ({ commentsToRender }) => {
       .then(data => setTechData(data))
       .catch(err => console.log('An error occured in CommentsContainer.jsx useEffect when fetching tech data: ' + err))
 
+    fetch('/api/tech/posts/' + techId)
+      .then(response => response.json())
+      .then(data => setCommentsToRender(data))
+      .catch(err => console.log('And error occured in CommentsContainer.jsx useEffect when fetching the posts: ' + err));
+
   }, []);
 
   const addComment = async (e) => {
@@ -64,32 +70,33 @@ export const CommentsContainer = ({ commentsToRender }) => {
       typeAdvice: false,
       typeCodeSnippet: false,
       typeHelpOffer: false,
+      username: userInfo.name || 'tristan',
       languageid: 1,
       title: commentTitle,
       comment: commentEditor,
       image: commentImage
     }
     
-    console.log('Submitting comments is commented out until fixed');
-    // try {
-    //   //on the button click the overlay is set back to false
-    //   const response = await fetch('/api/post', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(newComment),
-    //   });
+    try {
+      //on the button click the overlay is set back to false
+      const response = await fetch('/api/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newComment),
+      });
 
-    //   const data = await response.json();
 
-    //   setShowOverlay(false);
-    //   console.log('success');
-    //   console.log('data returned', data);
-    // } 
-    // catch (err) {
-    //   console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
-    // }
+      const data = await response.json();
+
+      setShowOverlay(false);
+      console.log('success');
+      console.log('data returned', data);
+    } 
+    catch (err) {
+      console.log('An error occured when making a new post in CommentsContainer.jsx addComment: ' + err);
+    }
   };
 
   const openOverlay = () => {
@@ -129,7 +136,7 @@ export const CommentsContainer = ({ commentsToRender }) => {
       <input type="text" className="search-bar" placeholder="Search Comments..." />
 
       <div className="accordion">
-        {comments}
+        {comments.length > 0 ? comments : <p>No posts yet!</p>}
       </div>
     </div>
   );

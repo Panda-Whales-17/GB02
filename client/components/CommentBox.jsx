@@ -14,8 +14,8 @@ export function CommentBox({ item, index, activeIndex, handleAccordionClick }) {
         >
           <div>{item.title}</div>
           <div className="details">
-            <p className="username">{item.username}</p>
-            <p className="tags">Posted by: Steve</p>
+            <p className="username">Posted By: {item.name}</p>
+            <p className="tags"></p>
           </div>
         </div>
       </div>
