@@ -77,10 +77,10 @@ userController.newSession = async (req, res, next) => {
         [user_id]
       );
       console.log(`Cookie successfully added: ${addCookie}`);
-      res.cookie('SSID', user_id, { httpOnly: true });
     } else {
       console.log('cookie already exists, cannot add.');
     }
+    res.cookie('SSID', user_id, { httpOnly: true });
     return next();
   } catch (error) {
     return next({
@@ -159,15 +159,16 @@ userController.authorizeEdit = async (req, res, next) => {
   // Here to edit or delete. Verify that they have a valid session and that User_ID is the author of req/params/id. If not, error.
 
   const postAuthorId = res.locals.postRequest.uploader;
-  console.log(postAuthorId)
+  console.log(postAuthorId);
 
   try {
-    const checkCookie = await db.query(`SELECT * FROM cookies WHERE id = $1`, [postAuthorId]);
-    
+    const checkCookie = await db.query(`SELECT * FROM cookies WHERE id = $1`, [
+      postAuthorId,
+    ]);
+
     if (checkCookie.rows.length > 0) return next();
-  }
-  // User is authorized to edit or delete their own post
-  catch(err) {
+  } catch (err) {
+    // User is authorized to edit or delete their own post
     // User not authorized to edit/delete another's post
     return next({
       log: 'usercontroller.authorizeEdit: User not authorized to modify another users post.',
