@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import helperFunctions from './helper-functions.js';
 import { Route, Routes } from 'react-router-dom';
 //add containers and requirements for JS
@@ -16,6 +16,25 @@ const App = () => {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
   const defaultUser = { username: '', user_id: null };
   const [userInfo, setUserInfo] = useState(defaultUser);
+
+  // this use effect runs every time the page is first loaded to see if a user is logged in. If they are not logged in, it'll have a nav bar for them to login or signup.
+  useEffect(() => {
+    async function checkForLoggedIn() {
+      const request = await fetch('/api', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // if a session does exist in the database, they are automatically logged in until they sign out.
+      const response = await request.json();
+      const { username, user_id } = response;
+      username ? setLoggedInStatus(true) : setLoggedInStatus(false);
+
+      // immediately setting the userInfo if they are still logged in.
+      setUserInfo({ username, user_id });
+    }
+    checkForLoggedIn();
+  }, []);
 
   return (
     <UserContext.Provider value={{ userInfo, setUserInfo }}>

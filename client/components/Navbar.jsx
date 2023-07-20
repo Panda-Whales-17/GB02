@@ -39,8 +39,8 @@ export function Navbar({ loggedInStatus, setLoggedInStatus }) {
       } catch (error) {
         console.log(error);
       }
-      deleteSsid();
     }
+    deleteSsid();
   }
 
   if (loggedInStatus) {

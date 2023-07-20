@@ -92,7 +92,7 @@ userController.newSession = async (req, res, next) => {
 
 userController.endSession = async (req, res, next) => {
   try {
-    res.clearCookie('SSID');
+    res.clearCookie('SSID', { httpOnly: true });
     const { user_id } = req.query;
     await db.query(`DELETE FROM cookies WHERE ssid = $1;`, [user_id]);
     console.log(`cookie successfully deleted`);
@@ -107,9 +107,6 @@ userController.endSession = async (req, res, next) => {
 
 userController.authenticate = async (req, res, next) => {
   // Here for verifying authentication of new users
-  // If they have a valid session already, next()
-  // if (req.cookies('SSID')) next;
-
   // If they don't have a valid session, check req.body for username + password
   const { username, password } = req.body;
   const userPassword = password;
@@ -122,7 +119,6 @@ userController.authenticate = async (req, res, next) => {
     );
 
     const { user_id, password } = userIdResult.rows[0];
-
     // get user information from the table.
     // check if the user exist. IF NOT?
     //if user does exist, then compare deconstructed password with user password from table
@@ -200,6 +196,37 @@ userController.findUser = async (req, res, next) => {
     return next({
       log: 'Encountered lookup error in postController.findPostsByUser',
       message: { err: 'Lookup error.' },
+    });
+  }
+};
+
+// checks to see if a user is logged in. Runs immediately on the first load of the page.
+userController.isLoggedIn = async (req, res, next) => {
+  try {
+    // if there is a cookie on the browser, we'll run this search if they have a session in the database.
+    if (req.cookies.SSID) {
+      const cookie = req.cookies.SSID;
+      const found = await db.query(`SELECT ssid FROM cookies WHERE ssid = $1`, [
+        cookie,
+      ]);
+      if (found.rows[0].length !== 0) {
+        const user = await db.query(
+          `SELECT name FROM users WHERE user_id = $1`,
+          [cookie]
+        );
+        // sending back the username and id to be assigned right off the get go.
+        res.locals.loggedIn = true;
+        res.locals.user = { username: user.rows[0].name, user_id: cookie };
+        return next();
+      }
+    }
+    // if they don't have a session, we'll just return a falsy value.
+    res.locals.loggedIn = false;
+    return next();
+  } catch (error) {
+    return next({
+      log: error,
+      message: 'error with session check.',
     });
   }
 };
