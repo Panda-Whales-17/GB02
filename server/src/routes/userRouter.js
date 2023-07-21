@@ -31,13 +31,11 @@ router.delete('/signout', userController.endSession, (req, res) => {
 // Look up a single user
 router.get(
   '/:id',
-  userController.findUser,
-  postController.findPostsByUser,
+  // userController.findUser,
+  userController.findUserTech,
   (req, res) => {
     // res.locals.userRequest && res.locals.postList
-    res
-      .status(200)
-      .json({ user: res.locals.userRequest, posts: res.locals.postList });
+    res.status(200).json(res.locals.userPostRequest);
   }
 );
 
