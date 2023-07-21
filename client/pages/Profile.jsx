@@ -1,94 +1,67 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 //add containers and requirements for JS
-import { Navbar } from '../components/Navbar.jsx';
+import HelperFunctions from '../helper-functions.js';
 
-const Profile = async (props) => {
-  if (props.loggedInStatus) {
-    //-->we have a logged in user
-    //get request to DB to fetch the userID's profile info (stretch goal)
-    await fetch('dummy', {
-      //--> go to Profile end point
-      method: 'POST',
-      body: JSON.stringify({
-        userId: props.loggedInStatus,
-      }),
-    })
-      .then((res) => {
-        res.json();
-      })
-      .then((resObj) => {
-        //--> eveutally update with the profile's saved data
-        return (
-          <div className="wrapper">
-            <Navbar />
-            <div className="body">
-              <div className="profile_picture">
-                Picture
-                <div className="profile_image">FETCHED image here</div>
-              </div>
-              <div className="profile_name">
-                Name
-                <div className="profile_text">FETCHED name here</div>
-              </div>
-              <div className="profile_password">
-                Password
-                <div className="profile_pass">FETCHED pasword here</div>
-              </div>
-              <div className="profile_friends">
-                Friends List
-                <div className="profile_friends_list">FETCHED Your Friends</div>
-              </div>
-              <div className="profile_comments">
-                Recent Comments
-                <div className="profile_comments_list">
-                  FETCHED Your recent comments on other APIs
-                </div>
-              </div>
-              <div className="profile_apis">
-                Recent API's Added
-                <div className="profile_APIs_list">
-                  FETCHED Your recent api's
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      });
-  } else {
-    //--> User is not signed in, give generic Profile display
+import { Navbar } from '../components/Navbar.jsx';
+import { UserContext } from '../contexts/UserContext.jsx';
+
+const Profile = ({ loggedInStatus, setLoggedInStatus }) => {
+
+  const [userInfoExtended, setUserInfoExtended] = useState(null);
+  const { userInfo } = useContext(UserContext);
+
+  useEffect(() => {
+    if (userInfo) {
+      console.log(userInfo);
+      fetch('/api/user/' + userInfo.username)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          return setUserInfoExtended(data)
+        })
+        .catch(err => console.log('An error occured in Profile.jsx getting userInfoExtended: ', err));
+    }
+  }, [userInfo])
+  
+
+  if (userInfoExtended) {
     return (
       <div className="wrapper">
-        <Navbar />
+        <Navbar loggedInStatus={loggedInStatus} setLoggedInStatus={setLoggedInStatus} />
         <div className="body">
           <div className="profile_picture">
-            Picture
-            <div className="profile_image">Uploads image here</div>
+            <img src="https://live.staticflickr.com/7045/6883014842_9553b47edd_b.jpg" style={{width: '480px', height: '360px'}} />
           </div>
           <div className="profile_name">
             Name
-            <div className="profile_text">Edit name form here</div>
-          </div>
-          <div className="profile_password">
-            Password
-            <div className="profile_pass">Edit pasword form here</div>
+            <div className="profile_text">{userInfoExtended.user.name}</div>
           </div>
           <div className="profile_friends">
             Friends List
-            <div className="profile_friends_list">Your Friends</div>
+            <div className="profile_friends_list">No friends :(</div>
           </div>
           <div className="profile_comments">
             Recent Comments
             <div className="profile_comments_list">
-              Your recent comments on other APIs
+            {userInfoExtended.posts.map((item) => {
+              return <p>{HelperFunctions.md(item.comment)}</p>
+            })}
             </div>
           </div>
           <div className="profile_apis">
             Recent API's Added
-            <div className="profile_APIs_list">Your recent api's</div>
+            <div className="profile_APIs_list">
+              FETCHED Your recent api's
+            </div>
           </div>
         </div>
       </div>
-    );
+    )
+  }
+  else {
+    return (
+      <h1>No user logged in :(</h1>
+    )
   }
 };
 
