@@ -52,7 +52,7 @@ export function SignupForm(props) {
       <Navbar />
       <div className="login_form_container">
         <form onSubmit={handleSignupSubmit} className="signup-form">
-          <label>Username:</label>
+          <label className="login-labels">Username:</label>
           <input
             type="text"
             name="username"
@@ -60,8 +60,8 @@ export function SignupForm(props) {
             placeholder="Username"
             required
             onChange={handleOnChange}
-          ></input>
-          <label>Password:</label>
+          ></input><br/>
+          <label className="login-labels">Password:</label>
           <input
             type="password"
             name="password"
@@ -69,8 +69,8 @@ export function SignupForm(props) {
             placeholder="Password"
             required
             onChange={handleOnChange}
-          ></input>
-          <label>Phone Number:</label>
+          ></input><br/>
+          <label className="login-labels">Phone Number:</label>
           <input
             type="text"
             name="contact"
@@ -78,7 +78,7 @@ export function SignupForm(props) {
             placeholder="Phone Number"
             required
             onChange={handleOnChange}
-          ></input>
+          ></input><br/>
           <button className="form_submit_button" value="Submit">
             Submit
           </button>
