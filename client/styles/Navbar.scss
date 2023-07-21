@@ -9,20 +9,31 @@ add a universal "Text color" to a "variables" pallete scss file AND import that 
   display: flex;
   list-style-type: none;
   justify-content: flex-end;
-  background-color: $third;
-  color: black;
+  background-color: $mainColor;
+  border: 2px solid $tertiaryColor;
+  color: white;
+  text-shadow: -1px 1px black;
+  font-size: 18px;
+  margin: 0px;
 }
 
 /*
 add a universal "on hover color" to a "variables" pallete scss file AND import that to _appStyles.css}
 */
 .Navbar li:hover {
-  background-color: $fifth;
-  color: $fourth;
+  scale: 1.2;
+  background-color: $secondaryColor;
+  color: $tertiaryColor;
+  border-radius: 25%;
+}
+
+.Navbar p {
+  margin: 0px;
 }
 
 .Navbar li {
   margin-left: 20px;
+  background-color: $tertiaryColor;
 }
 
 .Navbar li:last-child {

@@ -1,0 +1,162 @@
+.container-primary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 20px 0px;
+}
+
+.container-3col {
+  overflow-y: auto;
+  width: 1200px;
+  min-height: 400px;
+  max-height: 70vh;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 59px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-content {
+  padding: 40px;
+  box-shadow: 0 2px 5px rgba(179, 179, 179, 0.3);
+  color: white;
+  background-color: rgb(175, 175, 175);
+  width: 480px;
+  height: 420px;
+  &:hover {
+    box-shadow: 0 0 10px rgb(218, 218, 218);
+  }
+}
+
+#overlay-close-button {
+  position: relative;
+  left: 10px;
+  top: -250px;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+}
+
+.input-one {
+  height: 40px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-weight: 400;
+  padding-left: 10px;
+  width: 470px;
+  margin-bottom: 30px;
+}
+
+.search-bar {
+  width: 800px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px;
+  font-size: 16px;
+  
+}
+
+.button {
+  height: 50px;
+  width: 140px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #45a049;
+}
+
+.box {
+  display: flex;
+  background-color: #f1f1f1;
+  padding: 20px;
+  flex-direction: column;
+  width: 315px;
+  height: 290px;
+  word-wrap: break-word;
+
+  &:hover {
+    box-shadow: 0 0 10px rgb(190, 105, 105);
+  }
+}
+
+.btn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.api-image {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.api-content {
+  margin-top: 10px;
+}
+
+.button-comment {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
+}
+.button-comment button {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  width: 80px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: green;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.api-content h3 {
+  margin-bottom: 10px;
+}
+
+.api-content p {
+  margin-top: 10px;
+}
+
+.tech-item-name {
+  font-size: 22px;
+  color: blue;
+  text-decoration: none;
+}
+
+.home-top-all-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70vw;
+}

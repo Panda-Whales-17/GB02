@@ -26,7 +26,7 @@ router.get('/:id', postController.findPost, (req, res) => {
 });
 
 // Update a single post
-router.put(
+router.patch(
   '/:id',
   postController.findPost,
   userController.authenticate,
@@ -41,8 +41,7 @@ router.put(
 router.put(
   '/:id',
   postController.findPost,
-  userController.authenticate,
-  userController.authorizeEdit,
+  // userController.authorizeEdit,
   postController.deletePost,
   (req, res) => {
     res.status(200).send();

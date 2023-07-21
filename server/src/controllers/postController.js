@@ -13,8 +13,7 @@ postController.findPost = async (req, res, next) => {
     if (rows.length === 0) {
       // no results
       return next({
-        log: 'Failed to find any matching posts.',
-        message: { err: 'Lookup error.' },
+        log: err,
       });
     }
     console.log('Retrieved post lookup: ', rows[0]);
@@ -22,18 +21,18 @@ postController.findPost = async (req, res, next) => {
     next();
   } catch (err) {
     return next({
-      log: 'Encountered lookup error in postController.findPost',
-      message: { err: 'Lookup error.' },
+      log: err,
     });
   }
 };
 
 postController.makePost = async (req, res, next) => {
   // An authorized user is posting
+  const { username } = req.body;
   // Get username from cookies/session
   //const { username } = req.cookies;
   // const uploader_id = req.cookies('SSID');
-  const uploader_id = 8;
+  const uploader_id = await db.query(`SELECT user_id FROM users WHERE name = $1`, [ username ])
   // Get post from body
   const {
     tech_id,
@@ -44,10 +43,17 @@ postController.makePost = async (req, res, next) => {
     languageid,
     title,
     comment,
+    image,
   } = req.body;
-  const image = '';
   // retreive tech id, uploader id, and language id
   // code
+  
+  //Obtain username from request body.
+  //use username to get user_id.
+  // assign user_Id to uploader_id
+  
+
+  
 
   try {
     // Add the post to the DB
@@ -57,7 +63,7 @@ postController.makePost = async (req, res, next) => {
       [
         title,
         tech_id,
-        uploader_id,
+        uploader_id.rows[0].user_id,
         typeReview,
         typeAdvice,
         typeCodeSnippet,
@@ -70,7 +76,7 @@ postController.makePost = async (req, res, next) => {
     // This could get PostId for confirmation and potentially better communication w/ front end
     return next();
   } catch (err) {
-    return next('error');
+    return next({ log: err });
   }
 };
 
@@ -81,10 +87,22 @@ postController.editPost = (req, res, next) => {
   next();
 };
 
-postController.deletePost = (req, res, next) => {
+postController.deletePost = async (req, res, next) => {
+// find post id
+const { id } = req.params;
+try{
+// Query database and Delete * from post Where postid = ?
   // An authorized/authenticated user wants to delete their post (res.locals.postRequest)
   // Delete the post from the database by databaseId.
+ const toDelete = await db.query(` DELETE FROM posts WHERE post_id = $1`, [id])
+ console.log(`Post ${id} has been deleted`)
   next();
+} catch(err){
+  return next({
+      log: 'Error at postController.deletePost.',
+      status: 401,
+      message: 'Post could not be deleted.',})
+}
 };
 
 postController.findPostsByUser = async (req, res, next) => {
@@ -101,8 +119,7 @@ postController.findPostsByUser = async (req, res, next) => {
     next();
   } catch (err) {
     return next({
-      log: 'Encountered lookup error in postController.findPostsByUser',
-      message: { err: 'Lookup error.' },
+      log: err,
     });
   }
 };
@@ -111,7 +128,7 @@ postController.findPostsByTech = async (req, res, next) => {
   // Get all post with req.params.id == techId
   // Attach to res.locals.postList;
   const techId = req.params.id;
-  const lookupText = 'SELECT * FROM posts WHERE tech = $1';
+  const lookupText = 'SELECT posts.*, users.name FROM posts LEFT JOIN users ON posts.uploader = users.user_id WHERE tech = $1';
   const lookupVals = [techId];
   try {
     const { rows } = await db.query(lookupText, lookupVals);
@@ -120,8 +137,7 @@ postController.findPostsByTech = async (req, res, next) => {
     next();
   } catch (err) {
     return next({
-      log: 'Encountered lookup error in postController.findPostsByTech',
-      message: { err: 'Lookup error.' },
+      log: err,
     });
   }
 };

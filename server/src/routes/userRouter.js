@@ -8,19 +8,10 @@ const router = express.Router();
 
 // USERS
 // Add new User to the database
-router.post(
-  '/newuser',
-  userController.makeUser,
-  userController.newSession,
-  (req, res) => {
-    // if the user already exists send a bool back to frontend
-    if (res.locals.existingUser) {
-      console.log('user already exists pick a different username');
-      res.status(200).send();
-    }
-    res.status(200).send();
-  }
-);
+router.post('/newuser', userController.makeUser, (req, res) => {
+  // userController.newSession,
+  return res.status(200).json(res.locals.userId);
+});
 
 // Login
 router.post(
@@ -28,23 +19,35 @@ router.post(
   userController.authenticate,
   userController.newSession,
   (req, res) => {
-    res.status(200).send();
+    return res.status(200).send(res.locals.userId);
   }
 );
 
 //Sign-Out
-router.get('/signout', userController.endSession, (req, res) => {
-  res.status(200).redirect('/');
+router.delete('/signout', userController.endSession, (req, res) => {
+  res.sendStatus(200);
 });
 
-// Look up a single user
 router.get(
-  '/:id',
+  '/profile/:id',
   userController.findUser,
   postController.findPostsByUser,
   (req, res) => {
     // res.locals.userRequest && res.locals.postList
-    res.status(200).json({user: res.locals.userRequest, posts: res.locals.postList});
+    res
+      .status(200)
+      .json({ user: res.locals.userRequest, posts: res.locals.postList });
+  }
+);
+
+// Look up a single user
+router.get(
+  '/:id',
+  // userController.findUser,
+  userController.findUserTech,
+  (req, res) => {
+    // res.locals.userRequest && res.locals.postList
+    res.status(200).json(res.locals.userPostRequest);
   }
 );
 
