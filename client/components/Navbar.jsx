@@ -10,7 +10,7 @@ export function Navbar({ loggedInStatus, setLoggedInStatus }) {
     navigate('/Home');
   }
   function comments() {
-    navigate('/Comments');
+    navigate('/UserComments');
   }
   function profile() {
     navigate('/Profile');

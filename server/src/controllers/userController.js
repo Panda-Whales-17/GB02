@@ -232,4 +232,31 @@ userController.isLoggedIn = async (req, res, next) => {
   }
 };
 
+userController.findUserTech = async (req, res, next) => {
+  // Look up id on db and place on res.locals.techRequest
+  try {
+    const { id } = req.params;
+    console.log('Looking up posts with user id ', id);
+    const { rows } = await db.query(`SELECT * FROM posts WHERE uploader = $1`, [
+      id,
+    ]);
+
+    if (rows.length === 0) {
+      return next({
+        log: 'Express error handler caught at techController.findTech',
+        message: { err: 'Error: bad request.' },
+      });
+    }
+    res.locals.userPostRequest = rows;
+    console.log('res.locals.userPostRequest: ', res.locals.userPostRequest);
+
+    return next();
+  } catch (err) {
+    return next({
+      log: err,
+      message: { err: 'Error: bad request.' },
+    });
+  }
+};
+
 module.exports = userController;

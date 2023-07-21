@@ -9,6 +9,7 @@ import Profile from './pages/Profile.jsx';
 import './styles/_appStyles.scss';
 import { SignupForm } from './components/SignupForm.jsx';
 import { UserContext } from './contexts/UserContext.jsx';
+import { UserComments } from './pages/UserComments.jsx';
 
 const App = () => {
   //create a High Level state for whether the user is logged in or not
@@ -88,6 +89,15 @@ const App = () => {
           path="signup"
           element={
             <SignupForm
+              loggedInStatus={loggedInStatus}
+              setLoggedInStatus={setLoggedInStatus}
+            />
+          }
+        />
+        <Route
+          path="userComments"
+          element={
+            <UserComments
               loggedInStatus={loggedInStatus}
               setLoggedInStatus={setLoggedInStatus}
             />
