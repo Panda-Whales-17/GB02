@@ -28,6 +28,18 @@ router.delete('/signout', userController.endSession, (req, res) => {
   res.sendStatus(200);
 });
 
+router.get(
+  '/profile/:id',
+  userController.findUser,
+  postController.findPostsByUser,
+  (req, res) => {
+    // res.locals.userRequest && res.locals.postList
+    res
+      .status(200)
+      .json({ user: res.locals.userRequest, posts: res.locals.postList });
+  }
+);
+
 // Look up a single user
 router.get(
   '/:id',
